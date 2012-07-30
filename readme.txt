@@ -70,8 +70,8 @@ Capability Manager Enhanced also adds <a href="http://presspermit.com">Press Per
 == Screenshots ==
 
 1. View or Modify capabilities for a role.
-2. View or Modify capabilities for a role (Press Permit integration).
-3. Actions on roles.
+2. Actions on roles.
+3. View or Modify capabilities for a role (Press Permit integration).
 4. Actions on roles (Press Permit integration).
 5. Users Menu.
 6. Permissions Menu (Press Permit integration).
