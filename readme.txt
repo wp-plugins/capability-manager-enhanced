@@ -18,15 +18,20 @@ With the Backup/Restore tool, you can save your Roles and Capabilities before ma
   * Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned only to administrators.
   * Administrator role cannot be deleted.
   * Non-administrators can only manage roles or users with same or lower capabilities.
-  
-Modified by <a href="http://agapetry.net">Kevin Behrens</a> with an improved UI which organizes capabilities:
+
+Enhanced and supported by <a href="http://agapetry.net">Kevin Behrens</a> since July 2012. The original Capability Manager author, Jordi Canals, has not updated the plugin since early 2010. Since he was unreachable by web or email, I decided to take on the project myself.
+
+The main change from the original plugin is an improved UI which organizes capabilities:
+
   * by post type
   * by operation (read/edit/delete)
   * by origin (WP core or plugin)
 
 Capability Manager Enhanced also adds <a href="http://presspermit.com">Press Permit plugin</a> integration:
-  * easily specify which post types require type-specific capability definitions (enabling supplemental role assignment by Press Permit)
 
+  * easily specify which post types require type-specific capability definitions
+  * show capabilities which Press Permit adds to the role by supplemental type-specific role assignment
+  
 = Features: =
 
 * Manage role capabilities.
