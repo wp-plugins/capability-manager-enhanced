@@ -462,15 +462,30 @@ if( defined('PP_VERSION') ) {
 			</dd>
 		</dl>
 
+		<?php 
+		$support_pp_only_roles = defined('PP_VERSION') && version_compare( PP_VERSION, '1.0-beta1.4', '>=');
+		?>
+		
+		<?php if ( $support_pp_only_roles && ! in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ) ) ) : ?>
+		<div style="float:right">
+			<?php
+			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
+			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
+			?>
+			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('supplemental assignment only', 'pp'); ?> </label>
+		</div>
+		<?php endif; ?>
+		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="current" value="<?php echo $default; ?>" />
 			<input type="submit" name="Save" value="<?php _e('Save Changes', $this->ID) ?>" class="button-primary" /> &nbsp;
+			
 			<?php if ( current_user_can('administrator') && 'administrator' != $default ) : ?>
-					<a class="ak-delete" title="<?php echo esc_attr(__('Delete this role', $this->ID)) ?>" href="<?php echo wp_nonce_url("admin.php?page={$this->ID}&amp;action=delete&amp;role={$default}", 'delete-role_' . $default); ?>" onclick="if ( confirm('<?php echo esc_js(sprintf(__("You are about to delete the %s role.\n 'Cancel' to stop, 'OK' to delete.", $this->ID), $roles[$default])); ?>') ) { return true;}return false;"><?php _e('Delete Role', $this->ID)?></a>
+				<a class="ak-delete" title="<?php echo esc_attr(__('Delete this role', $this->ID)) ?>" href="<?php echo wp_nonce_url("admin.php?page={$this->ID}&amp;action=delete&amp;role={$default}", 'delete-role_' . $default); ?>" onclick="if ( confirm('<?php echo esc_js(sprintf(__("You are about to delete the %s role.\n 'Cancel' to stop, 'OK' to delete.", $this->ID), $roles[$default])); ?>') ) { return true;}return false;"><?php _e('Delete Role', $this->ID)?></a>
 			<?php endif; ?>
 		</p>
-
+		
 		<br />
 		<?php ak_admin_footer($this->ID, 2009); ?>
 		
@@ -490,20 +505,36 @@ if( defined('PP_VERSION') ) {
 					</select><span style="margin-left:20px"><input type="submit" name="Load" value="<?php defined('WPLANG') && WPLANG ? _e('Change', $this->ID) : _e('Load', $this->ID) ?>" class="button" /></span></p>
 				</dd>
 			</dl>
-
+			
 			<dl>
 				<dt><?php _e('Create New Role', $this->ID); ?></dt>
 				<dd style="text-align:center;">
-					<p><input type="text" name="create-name"" class="regular-text" placeholder="<?php _e('Name of new role', $this->ID) ?>" /><br />
-					<input type="submit" name="Create" value="<?php _e('Create', $this->ID) ?>" class="button" /></p>
+					<?php $class = ( $support_pp_only_roles ) ? 'tight-text' : 'regular-text'; ?>
+					<p><input type="text" name="create-name"" class="<?php echo $class;?>" placeholder="<?php _e('Name of new role', $this->ID) ?>" />
+					
+					<?php if( $support_pp_only_roles ) : ?>
+					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1" checked="checked"> <?php _e('supplemental', 'pp'); ?> </label>
+					<?php endif; ?>
+					
+					<br />
+					<input type="submit" name="Create" value="<?php _e('Create', $this->ID) ?>" class="button" />
+					</p>
 				</dd>
 			</dl>
 
 			<dl>
 				<dt><?php defined('WPLANG') && WPLANG ? _e('Copy this role to', $this->ID) : printf( __('Copy %s Role', $this->ID), $roles[$default]); ?></dt>
 				<dd style="text-align:center;">
-					<p><input type="text" name="copy-name" class="regular-text" placeholder="<?php _e('Name of copied role', $this->ID) ?>" /><br />
-					<input type="submit" name="Copy" value="<?php _e('Copy', $this->ID) ?>" class="button" /></p>
+					<?php $class = ( $support_pp_only_roles ) ? 'tight-text' : 'regular-text'; ?>
+					<p><input type="text" name="copy-name"  class="<?php echo $class;?>" placeholder="<?php _e('Name of copied role', $this->ID) ?>" />
+					
+					<?php if( $support_pp_only_roles ) : ?>
+					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1" checked="checked"> <?php _e('supplemental', 'pp'); ?> </label>
+					<?php endif; ?>
+					
+					<br />
+					<input type="submit" name="Copy" value="<?php _e('Copy', $this->ID) ?>" class="button" />
+					</p>
 				</dd>
 			</dl>
 

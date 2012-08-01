@@ -96,6 +96,10 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.4.2 =
+  * Language: updated .pot file
+  * Press Permit integration: roles can be marked for supplemental assignment only (and suppressed from WP role assignment dropdown, requires PP 1.0-beta1.4)
+
 = 1.4.1 =
   * https compatibility: use content_url(), plugins_url()
   * Press Permit integration: if role definitions are reset to WP defaults, also repopulate PP capabilities (pp_manage_settings, etc.)

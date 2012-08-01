@@ -109,6 +109,10 @@ width: 300px;
 width: 200px;
 }
 
+#akmin input.tight-text {
+width: 125px;
+}
+
 .cme-subtext {
 color: #686868;
 font-style: italic;

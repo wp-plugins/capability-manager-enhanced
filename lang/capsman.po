@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Capability Manager Enhanced\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-30 02:21-0500\n"
-"PO-Revision-Date: 2012-07-30 02:21-0500\n"
+"POT-Creation-Date: 2012-08-01 00:41-0500\n"
+"PO-Revision-Date: 2012-08-01 00:41-0500\n"
 "Last-Translator: Kevin Behrens <kevin@agapetry.net>\n"
 "Language-Team: Agapetry Creations LLC <kevin@agapetry.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,34 +17,34 @@ msgstr ""
 "X-Poedit-SearchPath-0: E:\\www\\wp34\\wp-content\\plugins\\capsman-enhanced\n"
 "X-Poedit-SearchPath-1: E:\\www\\wp34\\wp-content\\plugins\\capsman-enhanced\\includes\n"
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:43
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:40
 msgid "<strong>Error:</strong> Capability Manager Extended cannot function because another copy of Capability Manager is active."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:60
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:57
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced/framework/classes/abstract/plugin.php:344
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced/framework/classes/abstract/plugin.php:363
 msgid "Warning:"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:61
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:58
 #, php-format
 msgid "The active plugin %s is not compatible with your PHP version."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:63
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:60
 #, php-format
 msgid "%s is required for this plugin."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:91
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:93
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:97
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:88
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:90
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:94
 msgid "Capability Manager"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:91
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:97
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:88
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/capsman-enhanced.php:94
 msgid "Role Capabilities"
 msgstr ""
 
@@ -544,129 +544,134 @@ msgstr ""
 msgid "Note: Underscores replace spaces in stored capability name (\"edit users\" => \"edit_users\")."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:468
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:375
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:468
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:375
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:471
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:471
+msgid "supplemental assignment only"
+msgstr ""
+
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:478
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:390
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:478
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:390
 msgid "Save Changes"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:470
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:470
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:481
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:481
 msgid "Delete this role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:470
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:470
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:481
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:481
 #, php-format
 msgid ""
 "You are about to delete the %s role.\n"
 " 'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:470
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:470
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:481
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:481
 msgid "Delete Role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:482
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:482
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:493
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:493
 msgid "Select New Role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:482
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:482
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:493
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:493
 msgid "Select Role to View / Edit"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:490
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:490
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:501
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:501
 msgid "Change"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:490
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:346
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:490
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:346
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:501
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:361
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:501
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:361
 msgid "Load"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:495
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:495
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:506
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:506
 msgid "Create New Role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:497
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:497
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:508
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:508
 msgid "Name of new role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:498
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:350
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:498
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:350
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:509
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:365
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:509
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:365
 msgid "Create"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:503
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:503
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:514
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:514
 msgid "Copy this role to"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:503
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:503
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:514
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:514
 #, php-format
 msgid "Copy %s Role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:505
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:505
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:516
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:516
 msgid "Name of copied role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:506
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:362
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:506
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:362
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:517
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:377
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:517
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:377
 msgid "Copy"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:511
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:511
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:522
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:522
 msgid "Add Capability"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:513
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:513
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:524
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:524
 msgid "capability name"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:514
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:379
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:514
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:379
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:525
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:394
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:525
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:394
 msgid "Add to role"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:520
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:520
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:531
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:531
 msgid "Force Type-Specific Capabilities"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:523
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:523
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:534
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:534
 msgid "Force unique capability names for:"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:564
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:564
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:575
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:575
 msgid "(PP Filtered Post Types, Taxonomies)"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:569
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:389
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:569
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:389
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/admin.php:580
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:404
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/admin.php:580
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:404
 msgid "Update"
 msgstr ""
 
@@ -742,113 +747,113 @@ msgstr ""
 msgid "Reset to WordPress defaults"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:183
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:183
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:198
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:198
 msgid "Capabilities"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:270
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:306
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:270
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:306
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:285
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:321
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:285
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:321
 msgid "What do you think you're doing?!?"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:333
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:333
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:348
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:348
 msgid "Bad form Received"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:352
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:365
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:352
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:365
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:367
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:380
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:367
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:380
 msgid "New role created."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:356
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:369
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:356
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:369
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:371
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:384
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:371
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:384
 msgid "Error: No role name specified."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:358
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:371
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:358
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:371
-msgid "Error: Failed creating the new role."
-msgstr ""
-
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:376
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:376
-msgid "New capabilities saved."
-msgstr ""
-
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:384
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:384
-msgid "New capability added to role."
-msgstr ""
-
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:373
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:386
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:373
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:386
-msgid "Incorrect capability name."
+msgid "Error: Failed creating the new role."
 msgstr ""
 
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:391
 #: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:391
+msgid "New capabilities saved."
+msgstr ""
+
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:399
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:399
+msgid "New capability added to role."
+msgstr ""
+
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:401
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:401
+msgid "Incorrect capability name."
+msgstr ""
+
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:406
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:406
 msgid "Capability settings saved."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:393
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:393
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:408
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:408
 msgid "Error saving capability settings."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:397
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:397
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:412
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:412
 msgid "Bad form received."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:417
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:417
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:432
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:432
 msgid "New backup saved."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:423
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:423
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:438
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:438
 msgid "Roles and Capabilities restored from last backup."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:425
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:425
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:440
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:440
 msgid "Restore failed. No backup found."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:447
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:447
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:462
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:462
 #, php-format
 msgid "Cannot delete default role. You <a href=\"%s\">have to change it first</a>."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:468
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:468
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:483
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:483
 #, php-format
 msgid "Role has been deleted. %1$d users moved to default role %2$s."
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:482
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:482
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:497
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:497
 msgid "Needed function to create default roles not found!"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:494
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:494
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:509
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:509
 msgid "Roles and Capabilities reset to WordPress defaults"
 msgstr ""
 
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:685
-#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:685
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced/includes/manager.php:700
+#: E:\www\wp34\wp-content\plugins\capsman-enhanced\includes/manager.php:700
 msgid "You cannot remove Manage Capabilities from Administrators"
 msgstr ""
 
