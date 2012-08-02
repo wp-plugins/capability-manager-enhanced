@@ -357,6 +357,13 @@ class CapabilityManager extends akPluginAbstract
 		$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
 		$this->current = $post['current'];
 
+		if ( defined( 'PP_VERSION' ) ) {  // log customized role caps for subsequent restoration
+			$plugins = get_option('active_plugins');
+			$customized_roles = (array) pp_get_option( 'customized_roles' );
+			$customized_roles[$post['role']] = (object) array( 'caps' => $post['caps'], 'plugins' => $plugins );
+			pp_update_option( 'customized_roles', $customized_roles );
+		}
+		
 		// Select a new role.
 		if ( isset($post['Load']) && __('Load', $this->ID) == $post['Load'] ) {
 			$this->current = $post['role'];

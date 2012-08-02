@@ -96,6 +96,10 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.4.3 =
+  * Fixed : Separate checkbox was displayed for cap->edit_published_posts even if it was defined to the be same as cap->edit_posts
+  * Press Permit integration: automatically store a backup copy of each role's last saved capability set so they can be reinstated if necessary (currently for bbPress)
+
 = 1.4.2 =
   * Language: updated .pot file
   * Press Permit integration: roles can be marked for supplemental assignment only (and suppressed from WP role assignment dropdown, requires PP 1.0-beta1.4)
@@ -109,7 +113,7 @@ You should have received a copy of the GNU General Public License along with thi
   * Editing UI separates WP core capabilities and 3rd party capabilities
   * Clarified sidebar captions
   * Don't allow a non-Administrator to add or remove a capability they don't have
-  * Fixed PHP Warnings for unchecked capabilities
+  * Fixed : PHP Warnings for unchecked capabilities
   * Press Permit integration: externally (dis)enable Post Types, Taxonomies for PP filtering (which forces type-specific capability definitions)
   * Show capabilities which Press Permit adds to the role by supplemental type-specific role assignment
   * Reduce memory usage by loading framework and plugin code only when needed

@@ -270,22 +270,28 @@ if( defined('PP_VERSION') ) {
 										if ( ! empty($type_obj->cap->$prop) && ( in_array( $type_obj->name, array( 'post', 'page' ) ) 
 										|| ! in_array( $type_obj->cap->$prop, $default_caps ) 
 										|| ( ( 'manage_categories' == $type_obj->cap->$prop ) && ( 'manage_terms' == $prop ) && ( 'category' == $type_obj->name ) ) ) ) {
-											$cap_name = $type_obj->cap->$prop;
 											
-											if ( $is_administrator || current_user_can($cap_name) ) {
-												if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
-													$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
-													$disabled = 'disabled="disabled"';
-													$checked = ' checked="checked"';
-												} else {
-													$title_text = $cap_name;
-													$disabled = '';
-													$checked = checked(1, ! empty($rcaps[$cap_name]), false );
-												}
+											// if edit_published or edit_private cap is same as edit_posts cap, don't display a checkbox for it
+											if ( ( ! in_array( $prop, array( 'edit_published_posts', 'edit_private_posts' ) ) || ( $type_obj->cap->$prop != $type_obj->cap->edit_posts ) ) 
+											&& ( ! in_array( $prop, array( 'delete_published_posts', 'delete_private_posts' ) ) || ( $type_obj->cap->$prop != $type_obj->cap->delete_posts ) )
+											) {
+												$cap_name = $type_obj->cap->$prop;
 												
-												$row .= '<input id=caps[' . $cap_name . '] type="checkbox" title="' . $title_text . '" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
-												$type_caps [$cap_name] = true;
-												$display_row = true;
+												if ( $is_administrator || current_user_can($cap_name) ) {
+													if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
+														$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
+														$disabled = 'disabled="disabled"';
+														$checked = ' checked="checked"';
+													} else {
+														$title_text = $cap_name;
+														$disabled = '';
+														$checked = checked(1, ! empty($rcaps[$cap_name]), false );
+													}
+													
+													$row .= '<input id=caps[' . $cap_name . '] type="checkbox" title="' . $title_text . '" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
+													$type_caps [$cap_name] = true;
+													$display_row = true;
+												}
 											}
 										}
 										$row .= '</td>';
