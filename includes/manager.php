@@ -202,7 +202,8 @@ class CapabilityManager extends akPluginAbstract
 	}
 
 	public function pp_menu() {
-		add_submenu_page( $GLOBALS['pp_admin']->get_menu('options'), __('Capability Manager', $this->ID),  __('Role Capabilities', $this->ID), 'manage_capabilities', $this->ID, array($this, 'generalManager') );
+		$menu_caption = ( defined('WPLANG') && WPLANG ) ? __('Capabilities', $this->ID) : __('Role Capabilities', $this->ID);
+		add_submenu_page( $GLOBALS['pp_admin']->get_menu('options'), __('Capability Manager', $this->ID),  $menu_caption, 'manage_capabilities', $this->ID, array($this, 'generalManager') );
 	}
 	
 	/**
@@ -365,11 +366,11 @@ class CapabilityManager extends akPluginAbstract
 		}
 		
 		// Select a new role.
-		if ( isset($post['Load']) && __('Load', $this->ID) == $post['Load'] ) {
+		if ( ! empty($post['LoadRole']) ) {
 			$this->current = $post['role'];
 
 		// Create a new role.
-		} elseif ( isset($post['Create']) && __('Create', $this->ID) == $post['Create'] ) {
+		} elseif ( ! empty($post['CreateRole']) ) {
 			if ( $newrole = $this->createRole($post['create-name']) ) {
 				ak_admin_notify(__('New role created.', $this->ID));
 				$this->current = $newrole;
@@ -381,7 +382,7 @@ class CapabilityManager extends akPluginAbstract
 			}
 
 		// Copy current role to a new one.
-		} elseif ( isset($post['Copy']) && __('Copy', $this->ID) == $post['Copy'] ) {
+		} elseif ( ! empty($post['CopyRole']) ) {
 			$current = get_role($post['current']);
 			if ( $newrole = $this->createRole($post['copy-name'], $current->capabilities) ) {
 				ak_admin_notify(__('New role created.', $this->ID));
@@ -394,11 +395,11 @@ class CapabilityManager extends akPluginAbstract
 			}
 
 		// Save role changes. Already saved at start with self::saveRoleCapabilities().
-		}elseif ( isset($post['Save']) && __('Save Changes', $this->ID) == $post['Save'] ) {
+		} elseif ( ! empty($post['SaveRole']) ) {
 			ak_admin_notify(__('New capabilities saved.', $this->ID));
 
 		// Create New Capability and adds it to current role.
-		} elseif ( isset($post['AddCap']) &&  __('Add to role', $this->ID) == $post['AddCap'] ) {
+		} elseif ( ! empty($post['AddCap']) ) {
 			$role = get_role($post['current']);
 
 			if ( $newname = $this->createNewName($post['capability-name']) ) {
@@ -408,7 +409,7 @@ class CapabilityManager extends akPluginAbstract
 				ak_admin_error(__('Incorrect capability name.', $this->ID));
 			}
 			
-		} elseif ( isset($post['update_filtered_types']) &&  __('Update', $this->ID) == $post['update_filtered_types'] ) {
+		} elseif ( ! empty($post['update_filtered_types']) ) {
 			if ( cme_update_pp_usage() ) {
 				ak_admin_notify(__('Capability settings saved.', $this->ID));
 			} else {

@@ -485,7 +485,7 @@ if( defined('PP_VERSION') ) {
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="current" value="<?php echo $default; ?>" />
-			<input type="submit" name="Save" value="<?php _e('Save Changes', $this->ID) ?>" class="button-primary" /> &nbsp;
+			<input type="submit" name="SaveRole" value="<?php _e('Save Changes', $this->ID) ?>" class="button-primary" /> &nbsp;
 			
 			<?php if ( current_user_can('administrator') && 'administrator' != $default ) : ?>
 				<a class="ak-delete" title="<?php echo esc_attr(__('Delete this role', $this->ID)) ?>" href="<?php echo wp_nonce_url("admin.php?page={$this->ID}&amp;action=delete&amp;role={$default}", 'delete-role_' . $default); ?>" onclick="if ( confirm('<?php echo esc_js(sprintf(__("You are about to delete the %s role.\n 'Cancel' to stop, 'OK' to delete.", $this->ID), $roles[$default])); ?>') ) { return true;}return false;"><?php _e('Delete Role', $this->ID)?></a>
@@ -508,7 +508,7 @@ if( defined('PP_VERSION') ) {
 						echo '<option value="' . $role .'"'; selected($default, $role); echo '> ' . $name . ' &nbsp;</option>';
 					}
 					?>
-					</select><span style="margin-left:20px"><input type="submit" name="Load" value="<?php defined('WPLANG') && WPLANG ? _e('Change', $this->ID) : _e('Load', $this->ID) ?>" class="button" /></span></p>
+					</select><span style="margin-left:20px"><input type="submit" name="LoadRole" value="<?php defined('WPLANG') && WPLANG ? _e('Change', $this->ID) : _e('Load', $this->ID) ?>" class="button" /></span></p>
 				</dd>
 			</dl>
 			
@@ -523,7 +523,7 @@ if( defined('PP_VERSION') ) {
 					<?php endif; ?>
 					
 					<br />
-					<input type="submit" name="Create" value="<?php _e('Create', $this->ID) ?>" class="button" />
+					<input type="submit" name="CreateRole" value="<?php _e('Create', $this->ID) ?>" class="button" />
 					</p>
 				</dd>
 			</dl>
@@ -539,7 +539,7 @@ if( defined('PP_VERSION') ) {
 					<?php endif; ?>
 					
 					<br />
-					<input type="submit" name="Copy" value="<?php _e('Copy', $this->ID) ?>" class="button" />
+					<input type="submit" name="CopyRole" value="<?php _e('Copy', $this->ID) ?>" class="button" />
 					</p>
 				</dd>
 			</dl>

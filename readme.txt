@@ -96,6 +96,10 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.4.4 =
+  * Fixed : On translated sites, roles could not be edited
+  * Fixed : Menu item change to "Role Capabilities" broke existing translations
+
 = 1.4.3 =
   * Fixed : Separate checkbox was displayed for cap->edit_published_posts even if it was defined to the be same as cap->edit_posts
   * Press Permit integration: automatically store a backup copy of each role's last saved capability set so they can be reinstated if necessary (currently for bbPress)
