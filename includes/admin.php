@@ -280,13 +280,12 @@ if( defined('PP_VERSION') ) {
 												if ( $is_administrator || current_user_can($cap_name) ) {
 													if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
 														$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
-														$disabled = 'disabled="disabled"';
-														$checked = ' checked="checked"';
 													} else {
 														$title_text = $cap_name;
-														$disabled = '';
-														$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 													}
+													
+													$disabled = '';
+													$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 													
 													$row .= '<input id=caps[' . $cap_name . '] type="checkbox" title="' . $title_text . '" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
 													$type_caps [$cap_name] = true;
@@ -354,17 +353,18 @@ if( defined('PP_VERSION') ) {
 
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
 						$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
-						$disabled = 'disabled="disabled"';
-						$checked = ' checked="checked"';
 					} else {
 						$title_text = $cap_name;
-						$disabled = '';
-						$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 					}
 					
+					$disabled = '';
+					$checked = checked(1, ! empty($rcaps[$cap_name]), false );
+					
 					$class = ( ! empty($rcaps[$cap_name]) || ! empty($pp_metagroup_caps[$cap_name]) ) ? 'cap_yes' : 'cap_no';
-					echo "<td class='$class' title='$title_text'>";
-					echo ( '<input id=caps[' . $cap_name . '] type="checkbox" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' /> ' );
+					
+					?>
+					<td class="<?php echo $class; ?>"><label for="caps[<?php echo $cap_name; ?>]" title="<?php echo $title_text;?>"><input id=caps[<?php echo $cap_name; ?>] type="checkbox" name="caps[<?php echo $cap_name; ?>]" value="1" <?php echo $checked . $disabled;?> />
+					<?php
 					echo str_replace( '_', ' ', $cap_name );
 					echo '</td>';
 					$i++;
@@ -398,18 +398,16 @@ if( defined('PP_VERSION') ) {
 						echo '</tr><tr>';
 						$i = 0; $first_row = false;
 					}
-					//$style = ( ! empty($rcaps[$cap_name]) || ! empty($pp_metagroup_caps[$cap_name]) ) ? 'color:green;font-weight:bold;' : 'color:red;';
 					$class = ( ! empty($rcaps[$cap_name]) || ! empty($pp_metagroup_caps[$cap_name]) ) ? 'cap_yes' : 'cap_no';
 					
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
 						$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
-						$disabled = 'disabled="disabled"';
-						$checked = ' checked="checked"';
 					} else {
 						$title_text = $cap_name;
-						$disabled = '';
-						$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 					}
+					
+					$disabled = '';
+					$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 					
 					if ( 'manage_capabilities' == $cap_name ) {
 						if ( ! current_user_can('administrator') ) {

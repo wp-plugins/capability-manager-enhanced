@@ -355,7 +355,6 @@ class CapabilityManager extends akPluginAbstract
 		    $post['caps'] = array();
 		}
 
-		$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
 		$this->current = $post['current'];
 
 		if ( defined( 'PP_VERSION' ) ) {  // log customized role caps for subsequent restoration
@@ -396,6 +395,7 @@ class CapabilityManager extends akPluginAbstract
 
 		// Save role changes. Already saved at start with self::saveRoleCapabilities().
 		} elseif ( ! empty($post['SaveRole']) ) {
+			$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
 			ak_admin_notify(__('New capabilities saved.', $this->ID));
 
 		// Create New Capability and adds it to current role.
@@ -693,7 +693,6 @@ class CapabilityManager extends akPluginAbstract
 	  * @return void
 	  */
 	private function saveRoleCapabilities( $role_name, $caps, $level ) {
-
 		$this->generateNames();
 		$role = get_role($role_name);
 

@@ -3,7 +3,7 @@
 Plugin Name: Capability Manager Enhanced
 Plugin URI: http://presspermit.com/capability-manager
 Description: Manage WordPress role definitions. Organizes available capabilities by post type, status and source.
-Version: 1.4.4
+Version: 1.4.5
 Author: Jordi Canals, Kevin Behrens
 Author URI: http://agapetry.net
  */
@@ -32,8 +32,8 @@ Author URI: http://agapetry.net
  */
 
 if ( ! defined( 'CAPSMAN_VERSION' ) ) {
-	define( 'CAPSMAN_VERSION', '1.4.4' );
-	define( 'CAPSMAN_ENH_VERSION', '1.4.4' );
+	define( 'CAPSMAN_VERSION', '1.4.5' );
+	define( 'CAPSMAN_ENH_VERSION', '1.4.5' );
 }
 
 if ( cme_is_plugin_active( 'capsman.php' ) ) {

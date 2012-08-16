@@ -96,6 +96,11 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.4.5 =
+  * Fixed : Capabilities were needlessly re-saved on role load
+  * Fixed : Capability labels in "Other WordPress" section did not toggle checkbox selection
+  * Press Permit integration: If capability is granted by the role's Permit Group, highlight it as green with a descriptive caption title, but leave checkbox enabled for display/editing of role defintion setting (previous behavior caused capability to be stripped out of WP role definition under some PP configurations)
+  
 = 1.4.4 =
   * Fixed : On translated sites, roles could not be edited
   * Fixed : Menu item change to "Role Capabilities" broke existing translations
