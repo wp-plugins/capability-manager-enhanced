@@ -4,7 +4,7 @@ Help link: http://wordpress.org/tags/capsman-enhanced
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
 Tested up to: 3.4.2
-Stable tag: trunk
+Stable tag: 1.4.5
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
 
