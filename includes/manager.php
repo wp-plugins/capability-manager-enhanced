@@ -672,6 +672,9 @@ class CapabilityManager extends akPluginAbstract
 	 * @return string|false	Returns the name of the new role created or false if failed.
 	 */
 	private function createRole( $name, $caps = array() ) {
+		if ( ! is_array($caps) )
+			$caps = array();
+
 		$role = $this->createNewName($name);
 		if ( ! is_array($role) ) {
 			return false;
@@ -696,7 +699,9 @@ class CapabilityManager extends akPluginAbstract
 		$this->generateNames();
 		$role = get_role($role_name);
 
-		$old_caps = array_intersect_key($role->capabilities, $this->capabilities);
+		$stored_role_caps = ( ! empty($role->capabilities) && is_array($role->capabilities) ) ? $role->capabilities : array();
+		
+		$old_caps = array_intersect_key( $stored_role_caps, $this->capabilities);
 		$new_caps = ( is_array($caps) ) ? array_map('intval', $caps) : array();
 		$new_caps = array_merge($new_caps, ak_level2caps($level));
 

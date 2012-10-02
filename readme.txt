@@ -3,7 +3,7 @@ Contributors: txanny, kevinB
 Help link: http://wordpress.org/tags/capsman-enhanced
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
-Tested up to: 3.4.1
+Tested up to: 3.4.2
 Stable tag: trunk
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
@@ -95,6 +95,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.4.6 =
+  * Fixed : Role update and copy failed if currently stored capability array is corrupted
 
 = 1.4.5 =
   * Fixed : Capabilities were needlessly re-saved on role load
