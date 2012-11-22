@@ -29,11 +29,13 @@
 $roles = $this->roles;
 $default = $this->current;
 
-if( defined('PP_VERSION') ) {
+if( defined('PP_ACTIVE') ) {
 	global $wpdb;
 
-	$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->pp_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' AND r.scope = 'site' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
-	//dump($pp_supplemental_roles);
+	if ( defined( 'PPC_VERSION' ) )
+		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->ppc_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
+	else
+		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->pp_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' AND r.scope = 'site' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
 	
 	$pp_filtered_types = pp_get_enabled_types('post');
 	$pp_metagroup_caps = array();
@@ -54,7 +56,7 @@ if( defined('PP_VERSION') ) {
 
 ?>
 <div class="wrap">
-	<?php if( defined('PP_VERSION') ) :
+	<?php if( defined('PP_ACTIVE') ) :
 		pp_icon();
 		$style = 'style="height:60px;"';
 	?>
@@ -76,7 +78,7 @@ if( defined('PP_VERSION') ) {
 			<dt><?php printf(__('Capabilities for %s', $this->ID), $roles[$default]); ?></dt>
 			<dd>
 				<?php
-				if ( defined( 'PP_VERSION' ) ) {
+				if ( defined( 'PP_ACTIVE' ) ) {
 					if ( pp_get_option('display_hints') ) {
 						echo '<div>';
 						_e( 'Use this form to view and modify the capabilities WordPress natively associates with each role.  Note:', $this->ID );
@@ -146,6 +148,9 @@ if( defined('PP_VERSION') ) {
 					echo '</div></div>';
 				}
 				
+				$capsman = ak_get_object('capsman');
+				$capsman->reinstate_db_roles();
+				
 				$current = get_role($default);
 				$rcaps = $current->capabilities;
 				
@@ -167,13 +172,13 @@ if( defined('PP_VERSION') ) {
 				
 				$cap_properties['edit']['taxonomy'] = array( 'manage_terms' );
 				
-				if ( ! defined( 'PP_VERSION' ) )
+				if ( ! defined( 'PP_ACTIVE' ) )
 					$cap_properties['edit']['taxonomy'] = array_merge( $cap_properties['edit']['taxonomy'], array( 'edit_terms', 'assign_terms' ) );
 	
 				$cap_properties['delete']['type'] = array( 'delete_posts', 'delete_others_posts' );
 				$cap_properties['delete']['type'] = array_merge( $cap_properties['delete']['type'], array( 'delete_published_posts', 'delete_private_posts' ) );
 				
-				if ( ! defined( 'PP_VERSION' ) )
+				if ( ! defined( 'PP_ACTIVE' ) )
 					$cap_properties['delete']['taxonomy'] = array( 'delete_terms' );
 				else
 					$cap_properties['delete']['taxonomy'] = array();
@@ -219,7 +224,7 @@ if( defined('PP_VERSION') ) {
 				$defined['taxonomy'] = get_taxonomies( array( 'public' => true ), 'object' );
 				
 				// Press Permit grants attachment capabilities based on user's capabilities for the parent post
-				if ( defined( 'PP_VERSION' ) || defined('SCOPER_VERSION') )
+				if ( defined( 'PP_ACTIVE' ) || defined('SCOPER_VERSION') )
 					unset( $defined['type']['attachment'] );
 
 				echo '<ul class="cme-listhoriz">';
@@ -456,7 +461,7 @@ if( defined('PP_VERSION') ) {
 				</table>
 				
 				<br />
-				<?php if ( ! defined('PP_VERSION') || pp_get_option('display_hints') ) :?>
+				<?php if ( ! defined('PP_ACTIVE') || pp_get_option('display_hints') ) :?>
 				<div class="cme-subtext">
 					<?php _e( 'Note: Underscores replace spaces in stored capability name ("edit users" => "edit_users").', 'pp' ); ?>
 				</div>
@@ -467,7 +472,7 @@ if( defined('PP_VERSION') ) {
 		</dl>
 
 		<?php 
-		$support_pp_only_roles = defined('PP_VERSION') && version_compare( PP_VERSION, '1.0-beta1.4', '>=');
+		$support_pp_only_roles = defined('PP_ACTIVE') && ( defined('PPC_VERSION') || version_compare( PP_VERSION, '1.0-beta1.4', '>=') );
 		?>
 		
 		<?php if ( $support_pp_only_roles && ! in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ) ) ) : ?>
@@ -550,7 +555,7 @@ if( defined('PP_VERSION') ) {
 				</dd>
 			</dl>
 			
-			<?php if ( defined('PP_VERSION') && current_user_can( 'pp_manage_settings' ) ) :?>
+			<?php if ( defined('PP_ACTIVE') && current_user_can( 'pp_manage_settings' ) ) :?>
 			<dl>
 				<dt><?php _e('Force Type-Specific Capabilities', $this->ID); ?></dt>
 				<dd style="text-align:center;">

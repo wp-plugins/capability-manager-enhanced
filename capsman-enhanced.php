@@ -3,7 +3,7 @@
 Plugin Name: Capability Manager Enhanced
 Plugin URI: http://presspermit.com/capability-manager
 Description: Manage WordPress role definitions. Organizes available capabilities by post type, status and source.
-Version: 1.4.6-dev
+Version: 1.4.6
 Author: Jordi Canals, Kevin Behrens
 Author URI: http://agapetry.net
  */
@@ -32,8 +32,8 @@ Author URI: http://agapetry.net
  */
 
 if ( ! defined( 'CAPSMAN_VERSION' ) ) {
-	define( 'CAPSMAN_VERSION', '1.4.6-dev' );
-	define( 'CAPSMAN_ENH_VERSION', '1.4.6.dev' );
+	define( 'CAPSMAN_VERSION', '1.4.6' );
+	define( 'CAPSMAN_ENH_VERSION', '1.4.6' );
 }
 
 if ( cme_is_plugin_active( 'capsman.php' ) ) {
@@ -80,11 +80,18 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 	}
 }
 
+add_action( 'plugins_loaded', '_cme_act_pp_active' );
+
+function _cme_act_pp_active() {
+	if ( defined('PP_VERSION') || defined('PPC_VERSION') )
+		define( 'PP_ACTIVE', true );
+}
+
 // perf enchancement: display submenu links without loading framework and plugin code
 function cme_submenus() {
-	if ( defined( 'PP_VERSION' ) )  // Press Permit integrates into Permissions menu
+	if ( defined('PP_ACTIVE') ) {   // Press Permit integrates into Permissions menu
 		add_action( 'pp_permissions_menu', '_cme_pp_menu' );
-	else {
+	} else {
 		$menu_caption = ( defined('WPLANG') && WPLANG ) ? __('Capabilities', 'capsman') : __('Role Capabilities', 'capsman');
 		add_users_page( __('Capability Manager', 'capsman'),  $menu_caption, 'manage_capabilities', 'capsman', 'cme_fakefunc');
 	}

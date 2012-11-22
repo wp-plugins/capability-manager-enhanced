@@ -31,7 +31,7 @@ include_once ( AK_CLASSES . '/abstract/plugin.php' );
 add_action( 'init', 'cme_update_pp_usage' );  // update early so resulting post type cap changes are applied for this request's UI construction
 
 function cme_update_pp_usage() {
-	if ( defined( 'PP_VERSION' ) && current_user_can( 'pp_manage_settings' ) ) {
+	if ( defined( 'PP_ACTIVE' ) && current_user_can( 'pp_manage_settings' ) ) {
 		static $updated;
 		if ( ! empty($updated) ) { return true; }
 	
@@ -121,6 +121,8 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	private $max_level;
 
+	private $log_db_role_objects = array();
+	
 	/**
 	 * Creates some filters at module load time.
 	 *
@@ -135,8 +137,37 @@ class CapabilityManager extends akPluginAbstract
 
         // Users with roles that cannot be managed, are not allowed to be edited.
         add_filter('map_meta_cap', array(&$this, 'filterUserEdit'), 10, 4);
+		
+		// ensure storage, retrieval of db-stored customizations to bbPress dynamic roles
+		global $wpdb;
+		$role_key = $wpdb->prefix . 'user_roles';
+		add_filter( 'option_' . $role_key, array( &$this, 'log_db_roles' ), 0 );
+		add_filter( 'option_' . $role_key, array( &$this, 'reinstate_db_roles' ), 50 );
     }
+	
+	function log_db_roles( $passthru_roles ) {
+		global $wp_roles;
 
+		$this->log_db_role_objects = $wp_roles->role_objects;
+
+		return $passthru_roles;
+	}
+	
+	// note: this is only applied when accessing the cme role edit form
+	function reinstate_db_roles( $passthru_roles = array() ) {
+		global $wp_roles;
+
+		if ( $this->log_db_role_objects ) {
+			$intersect = array_intersect_key( $wp_roles->role_objects, $this->log_db_role_objects );
+			foreach( array_keys( $intersect ) as $key ) {
+				if ( ! empty( $this->log_db_role_objects[$key]->capabilities ) )
+					$wp_roles->role_objects[$key]->capabilities = $this->log_db_role_objects[$key]->capabilities;
+			}
+		}
+		
+		return $passthru_roles;
+	}
+	
 	/**
 	 * Sets default settings values.
 	 *
@@ -192,7 +223,7 @@ class CapabilityManager extends akPluginAbstract
 			$this->setAdminCapability();
 		}
 
-		if ( defined( 'PP_VERSION' ) ) { // Press Permit integrates into Permissions menu
+		if ( defined( 'PP_ACTIVE' ) ) { // Press Permit integrates into Permissions menu
 			add_action( 'pp_permissions_menu', array( &$this, 'pp_menu' ) );
 		} else {
 			add_users_page( __('Capability Manager', $this->ID),  __('Capabilities', $this->ID), 'manage_capabilities', $this->ID, array($this, 'generalManager'));
@@ -356,13 +387,6 @@ class CapabilityManager extends akPluginAbstract
 		}
 
 		$this->current = $post['current'];
-
-		if ( defined( 'PP_VERSION' ) ) {  // log customized role caps for subsequent restoration
-			$plugins = get_option('active_plugins');
-			$customized_roles = (array) pp_get_option( 'customized_roles' );
-			$customized_roles[$post['role']] = (object) array( 'caps' => $post['caps'], 'plugins' => $plugins );
-			pp_update_option( 'customized_roles', $customized_roles );
-		}
 		
 		// Select a new role.
 		if ( ! empty($post['LoadRole']) ) {
@@ -397,6 +421,28 @@ class CapabilityManager extends akPluginAbstract
 		} elseif ( ! empty($post['SaveRole']) ) {
 			$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
 			ak_admin_notify(__('New capabilities saved.', $this->ID));
+			
+			if ( defined( 'PP_ACTIVE' ) ) {  // log customized role caps for subsequent restoration
+				if ( function_exists( 'bbp_get_version' ) && version_compare( bbp_get_version(), '2.2', '<' ) ) {
+					// for bbPress < 2.2, need to log customization of roles following bbPress activation
+					$plugins = get_option('active_plugins');
+					foreach( $plugins as $key => $plugin ) {
+						if ( false === strpos($plugin, 'bbpress.php' ) )
+							unset( $plugins[$key] );  // reduce storage size
+					}
+				} else {
+					$plugins = array();	// back compat
+				}
+				
+				if ( ! $customized_roles = get_option( 'pp_customized_roles' ) )
+					$customized_roles = array();
+
+				$customized_roles[$post['role']] = (object) array( 'caps' => $post['caps'], 'plugins' => $plugins );
+				update_option( 'pp_customized_roles', $customized_roles );
+				
+				global $wpdb;
+				$wpdb->query( "UPDATE $wpdb->options SET autoload = 'no' WHERE option_name = 'pp_customized_roles'" );
+			}
 
 		// Create New Capability and adds it to current role.
 		} elseif ( ! empty($post['AddCap']) ) {
@@ -420,7 +466,7 @@ class CapabilityManager extends akPluginAbstract
 		    ak_admin_error(__('Bad form received.', $this->ID));
 		}
 		
-		if ( ! empty($newrole) && ! empty( $_REQUEST['new_role_pp_only'] ) && defined('PP_VERSION') ) {
+		if ( ! empty($newrole) && ! empty( $_REQUEST['new_role_pp_only'] ) && defined('PP_ACTIVE') ) {
 			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 			$pp_only[]= $newrole;
 			pp_update_option( 'supplemental_role_defs', $pp_only );
@@ -495,6 +541,13 @@ class CapabilityManager extends akPluginAbstract
 		remove_role($this->current);
 		unset($this->roles[$this->current]);
 
+		if ( $customized_roles = get_option( 'pp_customized_roles' ) ) {
+			if ( isset( $customized_roles[$this->current] ) ) {
+				unset( $customized_roles[$this->current] );
+				update_option( 'pp_customized_roles', $customized_roles );
+			}
+		}
+		
 		ak_admin_notify(sprintf(__('Role has been deleted. %1$d users moved to default role %2$s.', $this->ID), $count, $this->roles[$default]));
 		$this->current = $default;
 	}
@@ -698,8 +751,11 @@ class CapabilityManager extends akPluginAbstract
 	private function saveRoleCapabilities( $role_name, $caps, $level ) {
 		$this->generateNames();
 		$role = get_role($role_name);
-
-		$stored_role_caps = ( ! empty($role->capabilities) && is_array($role->capabilities) ) ? $role->capabilities : array();
+		
+		// workaround to ensure db storage of customizations to bbp dynamic roles
+		$role->name = $role_name;
+		
+		$stored_role_caps = ( ! empty($role->capabilities) && is_array($role->capabilities) ) ? array_intersect( $role->capabilities, array(true, 1) ) : array();
 		
 		$old_caps = array_intersect_key( $stored_role_caps, $this->capabilities);
 		$new_caps = ( is_array($caps) ) ? array_map('intval', $caps) : array();
