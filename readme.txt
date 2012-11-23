@@ -79,6 +79,13 @@ Capability Manager Enhanced also adds <a href="http://presspermit.com">Press Per
 
 == Frequently Asked Questions ==
 
+= How can I grant capabilities for a custom post type =
+The custom post type must be defined to impose type-specific capability requirements.  This is normally done by setting the "capability type" property equal to the post type name.
+
+= I have configured a role to edit a custom post type. Why do the users still see "You are not allowed the edit this post?" when they try to save/submit a new post? =
+
+Probably because your custom post type definition not having map_meta_cap set true. If you are calling register_post_type manually, just add this property to the options array. Unfortunately, none of the free CPT plugins deal with this important detail. 
+
 = Where can I find more information about this plugin, usage and support ? =
 
 * If you need help, <a href="http://wordpress.org/tags/capsman-enhanced">ask in the Support forum</a>.
