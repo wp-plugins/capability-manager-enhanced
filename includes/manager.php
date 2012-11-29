@@ -64,7 +64,7 @@ function cme_update_pp_usage() {
 			}
 		}
 		
-		if ( ! empty( $_REQUEST['Save']) ) {
+		if ( ! empty( $_REQUEST['SaveRole']) ) {
 			if ( ! empty( $_REQUEST['role'] ) ) {
 				$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 				

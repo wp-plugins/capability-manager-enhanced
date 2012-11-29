@@ -478,6 +478,7 @@ if( defined('PP_ACTIVE') ) {
 		<?php if ( $support_pp_only_roles && ! in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ) ) ) : ?>
 		<div style="float:right">
 			<?php
+			pp_refresh_options();
 			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
 			?>
