@@ -4,7 +4,7 @@ Help link: http://wordpress.org/tags/capsman-enhanced
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
 Tested up to: 3.4.2
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
 
@@ -102,6 +102,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.4.8 =
+  * Compat : bbPress + Press Permit - "Add Capability" form failed when used on a bbPress role, caused creation of an invalid role
 
 = 1.4.7 =
   * Compat : Press Permit - flagging of roles as "supplemental assignment only" was not saved

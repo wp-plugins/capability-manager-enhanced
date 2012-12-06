@@ -447,6 +447,7 @@ class CapabilityManager extends akPluginAbstract
 		// Create New Capability and adds it to current role.
 		} elseif ( ! empty($post['AddCap']) ) {
 			$role = get_role($post['current']);
+			$role->name = $post['current'];		// bbPress workaround
 
 			if ( $newname = $this->createNewName($post['capability-name']) ) {
 				$role->add_cap($newname['name']);
