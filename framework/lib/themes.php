@@ -222,8 +222,8 @@ function ak_admin_footer ( $mod_id, $year = 2009 )
 		echo '2010 Jordi Canals';
 		echo '&nbsp;&nbsp;|&nbsp;&nbsp;';
 
-		$_year = '2012';
-		if ( 2012 != $year ) {
+		$_year = '2013';
+		if ( 2013 != $year ) {
 		    $_year . '-' . $year ;
 		}
 

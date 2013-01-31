@@ -5,13 +5,13 @@
  *
  * @version		$Rev: 198515 $
  * @author		Jordi Canals, Kevin Behrens
- * @copyright   Copyright (C) 2009, 2010 Jordi Canals, (C) 2012 Kevin Behrens
+ * @copyright   Copyright (C) 2009, 2010 Jordi Canals, (C) 2012-2013 Kevin Behrens
  * @license		GNU General Public License version 2
  * @link		http://agapetry.net
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012, Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2013, Kevin Behrens <kevin@agapetry.net>
 	
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ if( defined('PP_ACTIVE') ) {
 	global $wpdb;
 
 	if ( defined( 'PPC_VERSION' ) )
-		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->ppc_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
+		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->ppc_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.agent_id AND r.agent_type = 'pp_group' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
 	else
 		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->pp_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' AND r.scope = 'site' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
 	
@@ -148,17 +148,27 @@ if( defined('PP_ACTIVE') ) {
 					echo '</div></div>';
 				}
 				
+				if ( MULTISITE ) {
+					global $wp_roles;
+					if ( method_exists( $wp_roles, 'reinit' ) )
+						$wp_roles->reinit();
+				}
+				
 				$capsman = ak_get_object('capsman');
 				$capsman->reinstate_db_roles();
 				
 				$current = get_role($default);
 				$rcaps = $current->capabilities;
-				
+
 				// ========= Begin Kevin B mod ===========
 				$is_administrator = current_user_can( 'administrator' );
 				
 				$custom_types = get_post_types( array( '_builtin' => false ), 'names' );
 				$custom_tax = get_taxonomies( array( '_builtin' => false ), 'names' );
+				
+				$defined = array();
+				$defined['type'] = get_post_types( array( 'public' => true ), 'object' );
+				$defined['taxonomy'] = get_taxonomies( array( 'public' => true ), 'object' );
 				
 				/*
 				if ( ( count($custom_types) || count($custom_tax) ) && ( $is_administrator || current_user_can( 'manage_pp_settings' ) ) ) {
@@ -167,7 +177,18 @@ if( defined('PP_ACTIVE') ) {
 				}
 				*/
 				
-				$cap_properties['edit']['type'] = array( 'edit_posts', 'edit_others_posts' );
+				$cap_properties['edit']['type'] = array( 'edit_posts' );
+				
+				foreach( $defined['type'] as $type_obj ) {
+					if ( 'attachment' != $type_obj->name ) {
+						if ( isset( $type_obj->cap->create_posts ) && ( $type_obj->cap->create_posts != $type_obj->cap->edit_posts ) ) {
+							$cap_properties['edit']['type'][]= 'create_posts';
+							break;
+						}
+					}
+				}
+				
+				$cap_properties['edit']['type'][]= 'edit_others_posts';
 				$cap_properties['edit']['type'] = array_merge( $cap_properties['edit']['type'], array( 'publish_posts', 'edit_published_posts', 'edit_private_posts' ) );
 				
 				$cap_properties['edit']['taxonomy'] = array( 'manage_terms' );
@@ -218,10 +239,6 @@ if( defined('PP_ACTIVE') ) {
 									   'manage_categories'
 									   );
 				$type_caps = array();
-				
-				$defined = array();
-				$defined['type'] = get_post_types( array( 'public' => true ), 'object' );
-				$defined['taxonomy'] = get_taxonomies( array( 'public' => true ), 'object' );
 				
 				// Press Permit grants attachment capabilities based on user's capabilities for the parent post
 				if ( defined( 'PP_ACTIVE' ) || defined('SCOPER_VERSION') )
@@ -277,7 +294,7 @@ if( defined('PP_ACTIVE') ) {
 										|| ( ( 'manage_categories' == $type_obj->cap->$prop ) && ( 'manage_terms' == $prop ) && ( 'category' == $type_obj->name ) ) ) ) {
 											
 											// if edit_published or edit_private cap is same as edit_posts cap, don't display a checkbox for it
-											if ( ( ! in_array( $prop, array( 'edit_published_posts', 'edit_private_posts' ) ) || ( $type_obj->cap->$prop != $type_obj->cap->edit_posts ) ) 
+											if ( ( ! in_array( $prop, array( 'edit_published_posts', 'edit_private_posts', 'create_posts' ) ) || ( $type_obj->cap->$prop != $type_obj->cap->edit_posts ) ) 
 											&& ( ! in_array( $prop, array( 'delete_published_posts', 'delete_private_posts' ) ) || ( $type_obj->cap->$prop != $type_obj->cap->delete_posts ) )
 											) {
 												$cap_name = $type_obj->cap->$prop;
@@ -539,7 +556,7 @@ if( defined('PP_ACTIVE') ) {
 					<p><input type="text" name="copy-name"  class="<?php echo $class;?>" placeholder="<?php _e('Name of copied role', $this->ID) ?>" />
 					
 					<?php if( $support_pp_only_roles ) : ?>
-					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1" checked="checked"> <?php _e('supplemental', 'pp'); ?> </label>
+					<label for="copy_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"> <input type="checkbox" name="copy_role_pp_only" id="copy_role_pp_only" value="1" checked="checked"> <?php _e('supplemental', 'pp'); ?> </label>
 					<?php endif; ?>
 					
 					<br />
@@ -598,6 +615,16 @@ if( defined('PP_ACTIVE') ) {
 					}
 					?>
 					</tr></table>
+					
+					<?php if( pp_wp_ver( '3.5' ) ) :
+						$define_create_posts_cap = pp_get_option( 'define_create_posts_cap' );
+					?>
+						<div>
+						<label for="pp_define_create_posts_cap">
+						<input name="pp_define_create_posts_cap" type="checkbox" id="pp_define_create_posts_cap" value="1" <?php checked('1', $define_create_posts_cap );?> /> <?php _e('Use create_posts capability');?>
+						</label>
+						</div>
+					<?php endif; ?>
 					
 					<div class="cme-subtext">
 					<?php

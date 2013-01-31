@@ -3,8 +3,8 @@ Contributors: txanny, kevinB
 Help link: http://wordpress.org/tags/capsman-enhanced
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
-Tested up to: 3.4.2
-Stable tag: 1.4.8
+Tested up to: 3.5.1
+Stable tag: 1.4.9
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
 
@@ -93,7 +93,7 @@ Probably because your custom post type definition not having map_meta_cap set tr
 == License ==
 
 Copyright 2009, 2010 Jordi Canals
-Copyright 2012, Kevin Behrens
+Copyright 2013, Kevin Behrens
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
 
@@ -103,6 +103,14 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.4.9 =
+  * Fixed : Role capabilities were not updated / refreshed properly on multisite installations
+  * Feature : If create_posts capabilities are defined, organize checkboxes into a column alongside edit_posts
+  * Feature : "Use create_posts capability" checkbox in sidebar auto-defines create_posts capabilities (requires Press Permit)
+  * Compat : bbPress + Press Permit - Modified bbPress role capabilities were not redisplayed following save, required reload
+  * Compat : bbPress + Press Permit - Adding a capability via the "Add Cap" textbox caused the checkbox to be available but not selected
+  * Compat : Press Permit - "supplemental only" option was always enabled for newly created and copied roles, regardless of checkbox setting near Create/Copy button
+  
 = 1.4.8 =
   * Compat : bbPress + Press Permit - "Add Capability" form failed when used on a bbPress role, caused creation of an invalid role
 

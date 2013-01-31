@@ -3,7 +3,7 @@
  * Admin Pages Quthoring widget.
  *
  * @author		Jordi Canals, Kevin Behrens
- * @copyright   Copyright (C) 2009, 2010 Jordi Canals; modifications Copyright (C) 2012 Kevin Behrens
+ * @copyright   Copyright (C) 2009, 2010 Jordi Canals; modifications Copyright (C) 2012-2013 Kevin Behrens
  * @license		GNU General Public License version 2
  * @link		http://agapetry.net
  * @package		Alkivia

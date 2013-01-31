@@ -3,7 +3,7 @@
 Plugin Name: Capability Manager Enhanced
 Plugin URI: http://presspermit.com/capability-manager
 Description: Manage WordPress role definitions. Organizes available capabilities by post type, status and source.
-Version: 1.4.8
+Version: 1.4.9
 Author: Jordi Canals, Kevin Behrens
 Author URI: http://agapetry.net
  */
@@ -13,13 +13,13 @@ Author URI: http://agapetry.net
  * Plugin to create and manage Roles and Capabilities.
  *
  * @author		Jordi Canals, Kevin Behrens
- * @copyright   Copyright (C) 2009, 2010 Jordi Canals; modifications Copyright (C) 2012 Kevin Behrens
+ * @copyright   Copyright (C) 2009, 2010 Jordi Canals; modifications Copyright (C) 2012-2013 Kevin Behrens
  * @license		GNU General Public License version 3
  * @link		http://agapetry.net
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012, Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2013, Kevin Behrens <kevin@agapetry.net>
 	
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -32,8 +32,8 @@ Author URI: http://agapetry.net
  */
 
 if ( ! defined( 'CAPSMAN_VERSION' ) ) {
-	define( 'CAPSMAN_VERSION', '1.4.8' );
-	define( 'CAPSMAN_ENH_VERSION', '1.4.8' );
+	define( 'CAPSMAN_VERSION', '1.4.9' );
+	define( 'CAPSMAN_ENH_VERSION', '1.4.9' );
 }
 
 if ( cme_is_plugin_active( 'capsman.php' ) ) {
@@ -80,7 +80,7 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 	}
 }
 
-add_action( 'plugins_loaded', '_cme_act_pp_active' );
+add_action( 'plugins_loaded', '_cme_act_pp_active', 1 );
 
 function _cme_act_pp_active() {
 	if ( defined('PP_VERSION') || defined('PPC_VERSION') )

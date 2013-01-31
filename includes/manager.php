@@ -5,13 +5,13 @@
  *
  * @version		$Rev: 199485 $
  * @author		Jordi Canals
- * @copyright   Copyright (C) 2009, 2010 Jordi Canals; Copyright (C) 2012 Kevin Behrens
+ * @copyright   Copyright (C) 2009, 2010 Jordi Canals; Copyright (C) 2012-2013 Kevin Behrens
  * @license		GNU General Public License version 2
  * @link		http://agapetry.net
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012 Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2013 Kevin Behrens <kevin@agapetry.net>
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -61,6 +61,10 @@ function cme_update_pp_usage() {
 				pp_update_option( $option_basename, $value );
 				
 				$updated = true;
+			}
+			
+			if ( pp_wp_ver( '3.5' ) ) {
+				pp_update_option( 'define_create_posts_cap', $_REQUEST['pp_define_create_posts_cap'] );
 			}
 		}
 		
@@ -123,6 +127,8 @@ class CapabilityManager extends akPluginAbstract
 
 	private $log_db_role_objects = array();
 	
+	private $message;
+	
 	/**
 	 * Creates some filters at module load time.
 	 *
@@ -143,6 +149,8 @@ class CapabilityManager extends akPluginAbstract
 		$role_key = $wpdb->prefix . 'user_roles';
 		add_filter( 'option_' . $role_key, array( &$this, 'log_db_roles' ), 0 );
 		add_filter( 'option_' . $role_key, array( &$this, 'reinstate_db_roles' ), 50 );
+		
+		add_filter( 'plugins_loaded', array( &$this, 'processRoleUpdate' ) );
     }
 	
 	function log_db_roles( $passthru_roles ) {
@@ -286,7 +294,7 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	function filterUserEdit ( $caps, $cap, $user_id, $args )
 	{
-	    if ( 'edit_user' != $cap || $user_id == (int) $args[0] ) {
+	    if ( ( 'edit_user' != $cap ) || ( ! isset($args[0]) ) || $user_id == (int) $args[0] ) {
 	        return $caps;
 	    }
 
@@ -304,25 +312,43 @@ class CapabilityManager extends akPluginAbstract
 		return $caps;
 	}
 
+	function processRoleUpdate() {
+		$this->current = get_option('default_role');	// By default we manage the default role.
+		
+		if ( 'POST' == $_SERVER['REQUEST_METHOD'] && ( ! empty($_REQUEST['SaveRole']) || ! empty($_REQUEST['AddCap']) ) ) {
+			if ( ! current_user_can('manage_capabilities') && ! current_user_can('administrator') ) {
+				// TODO: Implement exceptions.
+				wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
+			}
+
+			//$this->current = get_option('default_role');	// By default we manage the default role.
+
+			check_admin_referer('capsman-general-manager');
+			$this->processAdminGeneral();
+		}
+	}
+	
 	/**
 	 * Manages global settings admin.
 	 *
 	 * @hook add_submenu_page
 	 * @return void
 	 */
-	function generalManager ()
-	{
+	function generalManager () {
 		if ( ! current_user_can('manage_capabilities') && ! current_user_can('administrator') ) {
             // TODO: Implement exceptions.
 		    wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
 		}
 
-		global $wp_roles;
-		$this->current = get_option('default_role');	// By default we manage the default role.
-
 		if ( 'POST' == $_SERVER['REQUEST_METHOD'] ) {
-			check_admin_referer('capsman-general-manager');
-			$this->processAdminGeneral();
+			if ( empty($_REQUEST['SaveRole']) && empty($_REQUEST['AddCap']) ) {
+				check_admin_referer('capsman-general-manager');
+				$this->processAdminGeneral();
+			} elseif ( ! empty($_REQUEST['SaveRole']) ) {
+				ak_admin_notify( $this->message, $this->ID );  // moved update operation to earlier action to avoid UI refresh issues.  But outputting notification there breaks styling.
+			} elseif ( ! empty($_REQUEST['AddCap']) ) {
+				ak_admin_notify( $this->message, $this->ID );
+			}
 		}
 
 		$this->generateNames();
@@ -419,8 +445,13 @@ class CapabilityManager extends akPluginAbstract
 
 		// Save role changes. Already saved at start with self::saveRoleCapabilities().
 		} elseif ( ! empty($post['SaveRole']) ) {
+			if ( MULTISITE ) {
+				global $wp_roles;
+				if ( method_exists( $wp_roles, 'reinit' ) )
+					$wp_roles->reinit();
+			}
+			
 			$this->saveRoleCapabilities($post['current'], $post['caps'], $post['level']);
-			ak_admin_notify(__('New capabilities saved.', $this->ID));
 			
 			if ( defined( 'PP_ACTIVE' ) ) {  // log customized role caps for subsequent restoration
 				if ( function_exists( 'bbp_get_version' ) && version_compare( bbp_get_version(), '2.2', '<' ) ) {
@@ -443,17 +474,31 @@ class CapabilityManager extends akPluginAbstract
 				global $wpdb;
 				$wpdb->query( "UPDATE $wpdb->options SET autoload = 'no' WHERE option_name = 'pp_customized_roles'" );
 			}
-
 		// Create New Capability and adds it to current role.
 		} elseif ( ! empty($post['AddCap']) ) {
+			if ( MULTISITE ) {
+				global $wp_roles;
+				if ( method_exists( $wp_roles, 'reinit' ) )
+					$wp_roles->reinit();
+			}
+			
 			$role = get_role($post['current']);
 			$role->name = $post['current'];		// bbPress workaround
 
 			if ( $newname = $this->createNewName($post['capability-name']) ) {
 				$role->add_cap($newname['name']);
-				ak_admin_notify(__('New capability added to role.', $this->ID));
+				$this->message = __('New capability added to role.');
+				
+				if ( ! $customized_roles = get_option( 'pp_customized_roles' ) )
+					$customized_roles = array();
+
+				$customized_roles[$post['role']] = (object) array( 'caps' => array_merge( $role->capabilities, array( $newname['name'] => 1 ) ), 'plugins' => $plugins );
+				update_option( 'pp_customized_roles', $customized_roles );
+				
+				global $wpdb;
+				$wpdb->query( "UPDATE $wpdb->options SET autoload = 'no' WHERE option_name = 'pp_customized_roles'" );
 			} else {
-				ak_admin_error(__('Incorrect capability name.', $this->ID));
+				$this->message = __('Incorrect capability name.');
 			}
 			
 		} elseif ( ! empty($post['update_filtered_types']) ) {
@@ -466,12 +511,14 @@ class CapabilityManager extends akPluginAbstract
 		    // TODO: Implement exceptions. This must be a fatal error.
 		    ak_admin_error(__('Bad form received.', $this->ID));
 		}
-		
-		if ( ! empty($newrole) && ! empty( $_REQUEST['new_role_pp_only'] ) && defined('PP_ACTIVE') ) {
-			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
-			$pp_only[]= $newrole;
-			pp_update_option( 'supplemental_role_defs', $pp_only );
-			pp_refresh_options();
+
+		if ( ! empty($newrole) && defined('PP_ACTIVE') ) {
+			if ( ( ! empty($post['CreateRole']) && ! empty( $_REQUEST['new_role_pp_only'] ) ) || ( ! empty($post['CopyRole']) && ! empty( $_REQUEST['copy_role_pp_only'] ) ) ) {
+				$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
+				$pp_only[]= $newrole;
+				pp_update_option( 'supplemental_role_defs', $pp_only );
+				pp_refresh_options();
+			}
 		}
 	}
 
@@ -625,7 +672,7 @@ class CapabilityManager extends akPluginAbstract
 
 		foreach ( array_keys($this->roles) as $role ) {
 			$role_caps = get_role($role);
-			$caps = array_merge($caps, $role_caps->capabilities);
+			$caps = array_merge( $caps, $role_caps->capabilities );  // user reported PHP 5.3.3 error without array cast
 		}
 
 		$keys = array_keys($caps);
