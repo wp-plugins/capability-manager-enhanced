@@ -4,18 +4,17 @@ Help link: http://wordpress.org/tags/capsman-enhanced
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 1.4.9
+Stable tag: 1.4.10
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
 
 == Description ==
 
 Capability Manager plugin provides a simple way to manage WordPress role definitions (Subscriber, Editor, etc.)  View or change the capabilities of any role, add new roles, copy existing roles into new ones, and add new capabilities to existing roles.
-You can also delegate capabilities management to other users. In this case, some restrictions apply to this users, as they can only set/unset the capabilities they have.
+You can also delegate capability management to other users. In this case, some restrictions apply to this users, as they can only set/unset the capabilities they have.
 With the Backup/Restore tool, you can save your Roles and Capabilities before making changes and revert them if something goes wrong. You'll find it on the Tools menu. 
 
-  * Capability manager has been tested to support only one WordPress role per user.
-  * Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned only to administrators.
+  * Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned to Administrators.
   * Administrator role cannot be deleted.
   * Non-administrators can only manage roles or users with same or lower capabilities.
 
@@ -102,6 +101,17 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.4.10 =
+  * Perf :  Eliminated unused framework code (reduced typical wp-admin memory usage by 0.6 MB)
+  * Fixed : Failure to save capability changes, on some versions of PHP
+  * Compat : Press Permit - PHP Warning on role save
+  * Compat : Press Permit - PHP Warning on "Force Type-Specific Capabilities" settings update
+  * Compat : Press Permit - "supplemental only" option stored redundant entries
+  * Compat : Press Permit - green background around capabilities which 
+  * Compat : Press Permit - PHP Warning on "Force Type-Specific Capabilities" settings update
+  * Maint  : Stop using $GLOBALS superglobal
+  * Change : Reduced download size by moving screenshots to assets folder of project folder
 
 = 1.4.9 =
   * Fixed : Role capabilities were not updated / refreshed properly on multisite installations

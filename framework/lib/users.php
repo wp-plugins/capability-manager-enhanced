@@ -27,17 +27,6 @@
  */
 
 /**
- * Gets current user ID.
- *
- * @return int Current user ID or 0 if not logged in.
- */
-function ak_current_user_id ()
-{
-	$user = wp_get_current_user();
-    return $user->id;
-}
-
-/**
  * Returns all valid roles.
  * The returned list can be translated or not.
  *
@@ -65,29 +54,6 @@ function ak_get_roles( $translate = false ) {
 		asort($roles);
 		return $roles;
 	}
-}
-
-/**
- * Return the user role. Taken from WordPress roles and Capabilities.
- *
- * @since 0.5
- *
- * @param int|object $user_ID	User ID or the user object to find the role.
- * @return string		User role in this blog (key, not translated).
- */
-function ak_get_user_role( $user ) {
-	global $wpdb, $wp_roles;
-	if ( ! isset( $wp_roles ) ) {
-		$wp_roles = new WP_Roles();
-	}
-	$caps_name = $wpdb->prefix . 'capabilities';
-
-	if ( ! is_object($user) ) {
-		$user = get_userdata($user);
-	}
-	$roles = array_filter( array_keys( (array) $user->$caps_name ), array( &$wp_roles, 'is_role' ) );
-
-	return array_pop($roles);
 }
 
 /**

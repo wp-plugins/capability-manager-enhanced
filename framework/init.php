@@ -35,7 +35,7 @@
 function ak_styles_url ()
 {
    $dir = str_replace('\\', '/', WP_CONTENT_DIR);
-   $fmw = str_replace('\\', '/', AK_FRAMEWORK);
+   $fmw = str_replace('\\', '/', AKK_FRAMEWORK);
 
    return str_replace($dir, content_url(), $fmw) . '/styles';
 }
@@ -54,74 +54,19 @@ if ( ! defined('AK_INI_FILE') ) {
 
 if ( ! defined('AK_CLASSES') ) {
     /** Define the classes folder */
-    define ( 'AK_CLASSES', AK_FRAMEWORK . '/classes');
+    define ( 'AK_CLASSES', AKK_FRAMEWORK . '/classes');
 }
-
 if ( ! defined('AK_LIB') ) {
     /** Library folder for functions files */
-    define ( 'AK_LIB', AK_FRAMEWORK . '/lib');
-}
-
-if ( ! defined('AK_VENDOR') ) {
-    /** Vendor classes and libs */
-    define ('AK_VENDOR', AK_FRAMEWORK . '/vendor');
-}
-
-$akf_uploads = wp_upload_dir();
-if ( ! defined('AK_UPLOAD_DIR') ) {
-    /** Absolute path to upload folder */
-    define ( 'AK_UPLOAD_DIR', $akf_uploads['basedir'] . '/alkivia');
-}
-if ( ! defined('AK_UPLOAD_URL') ) {
-    /** URL to upload folder. This could be replaced by a download manager. */
-    define ( 'AK_UPLOAD_URL', $akf_uploads['baseurl'] . '/alkivia');
+    define ( 'AK_LIB', AKK_FRAMEWORK . '/lib');
 }
 
 // ============================================== SET GLOBAL ACTION HOOKS =====
 
-/**
- * Adds meta name for Alkivia Framework to head.
- *
- * @hook action 'wp_head'
- * @access private
- * @return void
- */
-function _ak_framework_meta_tags() {
-    echo '<meta name="framework" content="Alkivia Framework ' . get_option('ak_framework_version') . '" />' . PHP_EOL;
-}
-add_action('wp_head', '_ak_framework_meta_tags');
-
-/**
- * Loads the framework translations.
- * Sets the translation text domain to 'akvf'.
- *
- * @return bool true on success, false on failure
- */
-function _ak_framework_translation()
-{
-    $locale = get_locale();
-    $mofile = AK_FRAMEWORK . "/lang/$locale.mo";
-
-    return load_textdomain('akfw', $mofile);
-}
-add_action('init', '_ak_framework_translation');
 
 // ================================================ INCLUDE ALL LIBRARIES =====
 
-// Create the upload folder if does not exist.
-if ( ! is_dir(AK_UPLOAD_DIR) ) {
-    wp_mkdir_p(AK_UPLOAD_DIR);
-}
-
-// Prepare the settings and objects libraries.
-require_once ( AK_CLASSES . '/settings.php');
-
-require_once ( AK_LIB . '/filesystem.php' );
 require_once ( AK_LIB . '/formating.php' );
-require_once ( AK_LIB . '/modules.php' );
-require_once ( AK_LIB . '/objects.php' );
-require_once ( AK_LIB . '/system.php' );
-require_once ( AK_LIB . '/themes.php' );
-require_once ( AK_LIB . '/users.php' );
 
-do_action('ak_framework_loaded');
+require_once ( AK_LIB . '/themes-agapetry.php' );
+require_once ( AK_LIB . '/users.php' );

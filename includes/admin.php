@@ -30,29 +30,11 @@ $roles = $this->roles;
 $default = $this->current;
 
 if( defined('PP_ACTIVE') ) {
-	global $wpdb;
-
-	if ( defined( 'PPC_VERSION' ) )
-		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->ppc_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.agent_id AND r.agent_type = 'pp_group' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
-	else
-		$pp_supplemental_roles = $wpdb->get_col( "SELECT role_name FROM $wpdb->pp_roles AS r INNER JOIN $wpdb->pp_groups AS g ON g.ID = r.group_id AND r.group_type = 'pp_group' AND r.scope = 'site' WHERE g.metagroup_type = 'wp_role' AND g.metagroup_id = '$default'" );
-	
-	$pp_filtered_types = pp_get_enabled_types('post');
+	require_once( dirname(__FILE__).'/pp-ui.php' );
+	$pp_ui = new Capsman_PP_UI();
+	$pp_metagroup_caps = $pp_ui->get_metagroup_caps( $default );
+} else
 	$pp_metagroup_caps = array();
-	$pp_cap_caster = pp_init_cap_caster();
-
-	foreach( $pp_supplemental_roles as $_role_name ) {
-		$role_specs = explode( ':', $_role_name );
-		if ( empty($role_specs[2]) || ! in_array( $role_specs[2], $pp_filtered_types ) )
-			continue;
-
-		// add all type-specific caps whose base property cap is included in this pattern role
-		// i.e. If 'edit_posts' is in the pattern role, grant $type_obj->cap->edit_posts
-		$pp_metagroup_caps = array_merge( $pp_metagroup_caps, array_fill_keys( $pp_cap_caster->get_typecast_caps( $_role_name, 'site' ), true ) );
-	}
-} else {
-	$pp_metagroup_caps = array();
-}
 
 ?>
 <div class="wrap">
@@ -77,24 +59,13 @@ if( defined('PP_ACTIVE') ) {
 		<dl>
 			<dt><?php printf(__('Capabilities for %s', $this->ID), $roles[$default]); ?></dt>
 			<dd>
+				<div>
+				<?php _e( 'Use this form to view and modify the capabilities WordPress natively associates with each role. Changes <strong>will remain in your database</strong> even if you deactivate the plugin.', $this->ID ); ?>
+				</div>
+
 				<?php
 				if ( defined( 'PP_ACTIVE' ) ) {
-					if ( pp_get_option('display_hints') ) {
-						echo '<div>';
-						_e( 'Use this form to view and modify the capabilities WordPress natively associates with each role.  Note:', $this->ID );
-						echo '</div><br />';
-						echo '<ul class="ul-disc"><li>';
-						
-						if ( pp_get_option( 'advanced_options' ) )
-							$parenthetical = sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'pp' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' );
-						else
-							$parenthetical = sprintf( __( 'activate %1$sAdvanced settings%2$s, see Role Usage', 'pp' ), "<a href='" . admin_url('admin.php?page=pp-settings&pp_tab=advanced') . "'>", '</a>' );
-
-						printf( __( '"Posts" capabilities selected here also define type-specific role assignment for Permit Groups (%s).', $this->ID ), $parenthetical ) ;
-						echo '</li><li>';
-						printf( __( 'Capabilities for custom statuses can be manually added to a role here (see Conditions > Capability Mapping for applicable names). However, it is usually more convenient to use Permit Groups to assign a supplemental status-specific role.', $this->ID ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
-						echo '</li></ul>';
-					}
+					$pp_ui->show_capability_hints( $default );
 				} else {
 					echo '<div>';
 					_e( "Interested in further customizing editing or viewing access? Consider stepping up to <a href='#pp-more'>Press Permit</a>.", $this->ID );
@@ -154,7 +125,7 @@ if( defined('PP_ACTIVE') ) {
 						$wp_roles->reinit();
 				}
 				
-				$capsman = ak_get_object('capsman');
+				global $capsman;
 				$capsman->reinstate_db_roles();
 				
 				$current = get_role($default);
@@ -169,6 +140,9 @@ if( defined('PP_ACTIVE') ) {
 				$defined = array();
 				$defined['type'] = get_post_types( array( 'public' => true ), 'object' );
 				$defined['taxonomy'] = get_taxonomies( array( 'public' => true ), 'object' );
+				
+				$unfiltered['type'] = apply_filters( 'pp_unfiltered_post_types', array() );
+				$unfiltered['taxonomy'] = apply_filters( 'pp_unfiltered_taxonomies', array( 'post_status' ) );  // avoid confusion with Edit Flow administrative taxonomy
 				
 				/*
 				if ( ( count($custom_types) || count($custom_tax) ) && ( $is_administrator || current_user_can( 'manage_pp_settings' ) ) ) {
@@ -277,6 +251,9 @@ if( defined('PP_ACTIVE') ) {
 							}
 
 							foreach( $defined[$item_type] as $key => $type_obj ) {
+								if ( in_array( $key, $unfiltered[$item_type] ) )
+									continue;
+								
 								$row = '<tr>';
 								
 								if ( $cap_type ) {
@@ -286,9 +263,11 @@ if( defined('PP_ACTIVE') ) {
 									$row .= "<td><a class='cap_type' href='#toggle_type_caps'>" . $type_obj->labels->name . '</a></td>';
 								
 									$display_row = ! empty($force_distinct_ui);
-								
+
 									foreach( $cap_properties[$cap_type][$item_type] as $prop ) {
-										$row .= '<td>';
+										$td_class = '';
+										$checkbox = '';
+										
 										if ( ! empty($type_obj->cap->$prop) && ( in_array( $type_obj->name, array( 'post', 'page' ) ) 
 										|| ! in_array( $type_obj->cap->$prop, $default_caps ) 
 										|| ( ( 'manage_categories' == $type_obj->cap->$prop ) && ( 'manage_terms' == $prop ) && ( 'category' == $type_obj->name ) ) ) ) {
@@ -299,9 +278,12 @@ if( defined('PP_ACTIVE') ) {
 											) {
 												$cap_name = $type_obj->cap->$prop;
 												
+												if ( ! empty($pp_metagroup_caps[$cap_name]) )
+													$td_class = 'class="cm-has-via-pp"';	
+											
 												if ( $is_administrator || current_user_can($cap_name) ) {
 													if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
-														$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
+														$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
 													} else {
 														$title_text = $cap_name;
 													}
@@ -309,13 +291,13 @@ if( defined('PP_ACTIVE') ) {
 													$disabled = '';
 													$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 													
-													$row .= '<input id=caps[' . $cap_name . '] type="checkbox" title="' . $title_text . '" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
+													$checkbox = '<input id=caps[' . $cap_name . '] type="checkbox" title="' . $title_text . '" name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
 													$type_caps [$cap_name] = true;
 													$display_row = true;
 												}
 											}
 										}
-										$row .= '</td>';
+										$row .= "<td $td_class>$checkbox</td>";
 									}
 								}
 								
@@ -361,7 +343,7 @@ if( defined('PP_ACTIVE') ) {
 				echo '<table width="100%" class="form-table"><tr>';
 				
 				
-				$checks_per_row = $this->getOption( 'form-rows' );
+				$checks_per_row = get_option( 'cme_form-rows', 5 );
 				$i = 0;
 
 				foreach( array_keys($core_caps) as $cap_name ) {
@@ -374,7 +356,7 @@ if( defined('PP_ACTIVE') ) {
 					}
 
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
-						$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
+						$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
 					} else {
 						$title_text = $cap_name;
 					}
@@ -423,7 +405,7 @@ if( defined('PP_ACTIVE') ) {
 					$class = ( ! empty($rcaps[$cap_name]) || ! empty($pp_metagroup_caps[$cap_name]) ) ? 'cap_yes' : 'cap_no';
 					
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
-						$title_text = sprintf( __( '%s: assigned by Permit Group', 'pp' ), $cap_name );
+						$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
 					} else {
 						$title_text = $cap_name;
 					}
@@ -488,20 +470,9 @@ if( defined('PP_ACTIVE') ) {
 			</dd>
 		</dl>
 
-		<?php 
-		$support_pp_only_roles = defined('PP_ACTIVE') && ( defined('PPC_VERSION') || version_compare( PP_VERSION, '1.0-beta1.4', '>=') );
+		<?php
+		$support_pp_only_roles = ( defined('PP_ACTIVE') ) ? $pp_ui->pp_only_roles_ui( $default ) : false;
 		?>
-		
-		<?php if ( $support_pp_only_roles && ! in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ) ) ) : ?>
-		<div style="float:right">
-			<?php
-			pp_refresh_options();
-			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
-			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
-			?>
-			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('supplemental assignment only', 'pp'); ?> </label>
-		</div>
-		<?php endif; ?>
 		
 		<p class="submit">
 			<input type="hidden" name="action" value="update" />
@@ -514,14 +485,14 @@ if( defined('PP_ACTIVE') ) {
 		</p>
 		
 		<br />
-		<?php ak_admin_footer($this->ID, 2009); ?>
+		<?php agp_admin_footer(); ?>
 		
 		</td>
 		<td class="sidebar">
-			<?php ak_admin_authoring($this->ID); ?>
+			<?php agp_admin_authoring($this->ID); ?>
 
 			<dl>
-				<dt><?php defined('WPLANG') && WPLANG ? _e('Select New Role', $this->ID) : _e('Select Role to View / Edit', $this->ID); ?></dt>
+				<dt><?php if ( defined('WPLANG') && WPLANG ) _e('Select New Role', $this->ID); else echo('Select Role to View / Edit'); ?></dt>
 				<dd style="text-align:center;">
 					<p><select name="role">
 					<?php
@@ -529,7 +500,7 @@ if( defined('PP_ACTIVE') ) {
 						echo '<option value="' . $role .'"'; selected($default, $role); echo '> ' . $name . ' &nbsp;</option>';
 					}
 					?>
-					</select><span style="margin-left:20px"><input type="submit" name="LoadRole" value="<?php defined('WPLANG') && WPLANG ? _e('Change', $this->ID) : _e('Load', $this->ID) ?>" class="button" /></span></p>
+					</select><span style="margin-left:20px"><input type="submit" name="LoadRole" value="<?php if ( defined('WPLANG') && WPLANG ) _e('Change', $this->ID); else echo('Load'); ?>" class="button" /></span></p>
 				</dd>
 			</dl>
 			
@@ -550,7 +521,7 @@ if( defined('PP_ACTIVE') ) {
 			</dl>
 
 			<dl>
-				<dt><?php defined('WPLANG') && WPLANG ? _e('Copy this role to', $this->ID) : printf( __('Copy %s Role', $this->ID), $roles[$default]); ?></dt>
+				<dt><?php defined('WPLANG') && WPLANG ? _e('Copy this role to', $this->ID) : printf( 'Copy %s Role', $roles[$default] ); ?></dt>
 				<dd style="text-align:center;">
 					<?php $class = ( $support_pp_only_roles ) ? 'tight-text' : 'regular-text'; ?>
 					<p><input type="text" name="copy-name"  class="<?php echo $class;?>" placeholder="<?php _e('Name of copied role', $this->ID) ?>" />
@@ -573,71 +544,9 @@ if( defined('PP_ACTIVE') ) {
 				</dd>
 			</dl>
 			
-			<?php if ( defined('PP_ACTIVE') && current_user_can( 'pp_manage_settings' ) ) :?>
-			<dl>
-				<dt><?php _e('Force Type-Specific Capabilities', $this->ID); ?></dt>
-				<dd style="text-align:center;">
-					<?php
-					$caption = __( 'Force unique capability names for:', 'pp' );
-					echo "<p>$caption</p><table style='width:100%'><tr>";
-					
-					foreach( array_keys($defined) as $item_type ) {	
-						echo '<td style="width:50%">';
-						$option_name = ( 'taxonomy' == $item_type ) ? 'enabled_taxonomies' : 'enabled_post_types';
-
-						$enabled = pp_get_option( $option_name );
-
-						foreach( $defined[$item_type] as $key => $type_obj ) {
-							if ( ! $key )
-								continue;
-
-							$id = "$option_name-" . $key;
-							?>
-							<div style="text-align:left">
-							<?php if ( 'nav_menu' == $key ) :?>
-								<input name="<?php echo($id);?>" type="hidden" id="<?php echo($id);?>" value="1" />
-								<input name="<?php echo("{$option_name}-options[]");?>" type="hidden" value="<?php echo($key)?>" />
-							
-							<?php else: ?>
-								<div class="agp-vspaced_input">
-								<label for="<?php echo($id);?>" title="<?php echo($key);?>">
-								<input name="<?php echo("{$option_name}-options[]");?>" type="hidden" value="<?php echo($key)?>" />
-								<input name="<?php echo($id);?>" type="checkbox" id="<?php echo($id);?>" value="1" <?php checked('1', isset($enabled[$key]) );?> /> <?php echo($type_obj->label);?>
-								
-								<?php 
-								echo ('</label></div>');
-
-							endif;  // displaying checkbox UI
-							
-							echo '</div>';
-						}
-						echo '</td>';
-					}
-					?>
-					</tr></table>
-					
-					<?php if( pp_wp_ver( '3.5' ) ) :
-						$define_create_posts_cap = pp_get_option( 'define_create_posts_cap' );
-					?>
-						<div>
-						<label for="pp_define_create_posts_cap">
-						<input name="pp_define_create_posts_cap" type="checkbox" id="pp_define_create_posts_cap" value="1" <?php checked('1', $define_create_posts_cap );?> /> <?php _e('Use create_posts capability');?>
-						</label>
-						</div>
-					<?php endif; ?>
-					
-					<div class="cme-subtext">
-					<?php
-					if ( pp_get_option( 'display_hints' ) ) {
-						_e( '(PP Filtered Post Types, Taxonomies)', 'pp' );
-					}
-					?>
-					</div>
-					
-					<input type="submit" name="update_filtered_types" value="<?php _e('Update', $this->ID) ?>" class="button" />
-				</dd>
-			</dl>
-			<?php endif;?>
+			<?php if ( defined('PP_ACTIVE') )
+				$pp_ui->pp_types_ui( $defined );
+			?>
 		</td>
 	</tr>
 	</table>

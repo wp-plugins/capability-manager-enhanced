@@ -67,12 +67,12 @@
 			</dd>
 		</dl>
 
-		<?php ak_admin_footer($this->ID, 2009); ?>
+		<?php agp_admin_footer(); ?>
 
 		</td>
 
 		<td class="sidebar">
-			<?php ak_admin_authoring($this->ID); ?>
+			<?php agp_admin_authoring($this->ID); ?>
 		</td>
 	</tr>
 	</table>
