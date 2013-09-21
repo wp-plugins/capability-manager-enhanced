@@ -6,39 +6,41 @@ Requires at least: 3.1
 Tested up to: 3.6.1
 Stable tag: 1.5
 
-A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
+A simple way to manage WordPress roles and capabilities.
 
 == Description ==
 
-Capability Manager plugin provides a simple way to manage WordPress role definitions (Subscriber, Editor, etc.)  View or change the capabilities of any role, add new roles, copy existing roles into new ones, and add new capabilities to existing roles.
-You can also delegate capability management to other users. In this case, some restrictions apply to this users, as they can only set/unset the capabilities they have.
-With the Backup/Restore tool, you can save your Roles and Capabilities before making changes and revert them if something goes wrong. You'll find it on the Tools menu. 
+Capability Manager Enhanced provides a simple way to manage WordPress role definitions (Subscriber, Editor, etc.). View or change the capabilities of any role, add new roles, copy existing roles into new ones, and add new capabilities to existing roles. Now supports capability negation and role networking.
 
-  * Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned to Administrators.
-  * Administrator role cannot be deleted.
-  * Non-administrators can only manage roles or users with same or lower capabilities.
+= Features: =
+
+* Create roles
+* Manage role capabilities
+* Supports negation: set any capability to granted, not granted, or blocked
+* Copy any role all network sites
+* Mark any role for auto-copy to future network sites
+* Backup and restore Roles and Capabilities to revert your last changes.
+* Revert Roles and Capabilities to WordPress defaults. 
+ 
+Role management can also be delegated:
+
+* Only users with 'manage_capabilities' can manage them. This capability is created at install time and assigned to Administrators.
+* Administrator role cannot be deleted.
+* Non-administrators can only manage roles or users with same or lower capabilities.
 
 Enhanced and supported by <a href="http://agapetry.net">Kevin Behrens</a> since July 2012. The original Capability Manager author, Jordi Canals, has not updated the plugin since early 2010. Since he was unreachable by web or email, I decided to take on the project myself.
 
 The main change from the original plugin is an improved UI which organizes capabilities:
 
-  * by post type
-  * by operation (read/edit/delete)
-  * by origin (WP core or plugin)
+* by post type
+* by operation (read/edit/delete)
+* by origin (WP core or plugin)
 
-Capability Manager Enhanced also adds <a href="http://presspermit.com">Press Permit plugin</a> integration:
+Capability Manager Enhanced also adds <a href="http://wordpress.org/plugins/press-permit-core">Press Permit</a> plugin integration:
 
-  * easily specify which post types require type-specific capability definitions
-  * show capabilities which Press Permit adds to the role by supplemental type-specific role assignment
+* easily specify which post types require type-specific capability definitions
+* show capabilities which Press Permit adds to the role by supplemental type-specific role assignment
   
-= Features: =
-
-* Manage role capabilities.
-* Create new roles or delete existing ones.
-* Add new capabilities to any existing role.
-* Backup and restore Roles and Capabilities to revert your last changes.
-* Revert Roles and Capabilities to WordPress defaults. 
- 
 = Languages included: =
 
 * English
