@@ -48,7 +48,7 @@ a.cap_type:hover {
 	
 ul.cme-listhoriz li {
 text-align: center;
-padding-right: 2em;
+padding-right: 1em;
 }
 
 ul.cme-listhoriz li table{
@@ -85,16 +85,92 @@ height: 2em;
 }
 
 table .cme-typecaps th {
-padding-left: 0.5em;
-padding-right: 0.5em;
+padding-left: 0.3em;
+padding-right: 0.3em;
 }
 
-td.cap_yes {
+table.cme-typecaps span.cap-x {
+display: none;
+}
+
+a.neg-cap, a.cap-on, a.type-on, a.neg-type-caps, a.cme-neg-all {
+text-decoration: none;
+}
+
+span.cap-x, a.cme-neg-all {
+color: red;
+font-size: 1.5em;
+padding-left: 1px;
+padding-right: 1px;
+vertical-align: middle;
+}
+
+a.cme-switch-all {
+color: black;
+font-size: 1.5em;
+padding-right: 1px;
+padding-right: 1px;
+vertical-align: middle;
+text-decoration: line-through;
+}
+
+td.cap-yes span {
 color:green;font-weight:bold;
 }
 
-td.cap_no {
-color:red;
+td.cap-no {
+color:#777;
+}
+
+td.cap-neg label span {
+color: red;
+}
+
+td.cap-neg input {
+display:none;
+}
+
+td.cap-no span.cap-x, td.cap-yes span.cap-x {
+display:none;
+}
+
+td.cap-neg span.cap-x {
+display:inline;
+}
+
+td.cap-neg  a.neg-cap {
+display:none;
+}
+
+/*
+span.cme-drop-cap {
+color: #aaa;
+}
+*/
+
+td.cap-metagroup label span {
+color: #080 !important;
+}
+
+td.cap-locked label input {
+display: inline !important;
+}
+
+td.cap-locked a.neg-cap {
+display: none !important;
+}
+
+a.type-off, a.neg-cap, a.cme-neg-all, a.neg-type-caps {
+color: #800;
+}
+
+a.type-on, a.cap-on, a.cme-switch-all {
+color: black;
+}
+
+input.cme-check-all, a.cme-neg-all {
+margin-right: 10px;
+padding-right: 10px;
 }
 
 #akmin input.button {

@@ -5,6 +5,9 @@ class Capsman_BackupHandler
 	var $cm;
 
 	function __construct( $manager_obj ) {
+		if ( ! is_super_admin() && ! current_user_can( 'restore_roles' ) )
+			wp_die( __( 'You do not have permission to restore roles.', 'capsman' ) );
+	
 		$this->cm = $manager_obj;
 	}
 	
@@ -57,7 +60,8 @@ class Capsman_BackupHandler
 			return;
 		}
 
-		$roles = array_keys($this->cm->roles);
+		$roles = array_keys( ak_get_roles(true) );
+
 		foreach ( $roles as $role) {
 			remove_role($role);
 		}

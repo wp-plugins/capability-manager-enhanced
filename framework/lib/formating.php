@@ -42,3 +42,16 @@ function ak_admin_notify( $message = '' )
     	echo '<div id="message" class="updated fade"><p><strong>' . $message . '</strong></p></div>';
     }
 }
+
+/**
+ * Displays admin ERRORS.
+ *
+ * @param $message	Message to display.
+ * @return void
+ */
+function ak_admin_error( $message )
+{
+    if ( is_admin() ) {
+        echo '<div id="error" class="error"><p><strong>' . $message . '</strong></p></div>';
+    }
+}

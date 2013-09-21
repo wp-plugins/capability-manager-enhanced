@@ -50,18 +50,23 @@ class Capsman_PP_UI {
 					printf( __( '"Posts" capabilities selected here also define type-specific role assignment for Permission Groups%s.', $cme_id ), $parenthetical ) ;
 				else
 					printf( __( '"Posts" capabilities selected here also define type-specific role assignment for Permit Groups%s.', $cme_id ), $parenthetical ) ;
-				echo '</li><li>';
+				echo '</li>';
 			}
 			
+			$status_hint = '';
 			if ( defined( 'PPC_VERSION' ) )
 				if ( defined( 'PPS_VERSION' ) )
-					printf( __( 'Capabilities for custom statuses can be manually added to a role here (see Post Statuses > Status > Capability Mapping for applicable names). However, it is usually more convenient to use Permission Groups to assign a supplemental status-specific role.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
-				else
-					printf( __( 'Capabilities for custom statuses can be manually added to a role here (see Post Statuses > Status > Capability Mapping for applicable names). However, by activating the PP Custom Post Statuses extension, you can assign a supplemental status-specific role easily using Permission Groups.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
-			elseif ( defined( 'PP_VERSION' ) )
-				printf( __( 'Capabilities for custom statuses can be manually added to a role here (see Conditions > Status > Capability Mapping for applicable names). However, it is usually more convenient to use Permit Groups to assign a supplemental status-specific role.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
+					$status_hint = sprintf( __( 'Capabilities for custom statuses can be manually added here (see Post Statuses > Status > Capability Mapping for applicable names). However, it is usually more convenient to use Permission Groups to assign a supplemental status-specific role.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
+				elseif ( pp_get_option( 'display_extension_hints' ) )
+					$status_hint = sprintf( __( 'Capabilities for custom statuses can be manually added here. Or activate the PP Custom Post Statuses extension to assign status-specific supplemental roles.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
 			
-			echo '</li></ul>';
+			elseif ( defined( 'PP_VERSION' ) )
+				$status_hint = sprintf( __( 'Capabilities for custom statuses can be manually added to a role here (see Conditions > Status > Capability Mapping for applicable names). However, it is usually more convenient to use Permit Groups to assign a supplemental status-specific role.', $cme_id ), "<a href='" . admin_url('?page=pp-role-usage') . "'>", '</a>' ) ;
+			
+			if ( $status_hint )
+				echo "<li>$status_hint</li>";
+
+			echo '</ul>';
 		}
 	}
 	
@@ -69,14 +74,14 @@ class Capsman_PP_UI {
 		$support_pp_only_roles = defined('PPC_VERSION') || version_compare( PP_VERSION, '1.0-beta1.4', '>=');
 		?>
 		
-		<?php if ( $support_pp_only_roles && ! in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor', 'administrator' ) ) ) : ?>
+		<?php if ( $support_pp_only_roles && ! in_array( $default, array( /*'subscriber', 'contributor', 'author', 'editor',*/ 'administrator' ) ) ) : ?>
 		<div style="float:right">
 			<?php
 			pp_refresh_options();
 			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
 			?>
-			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permit Groups only', 'pp');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('supplemental assignment only', 'pp'); ?> </label>
+			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'pp');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('hidden role', 'pp'); ?> </label>
 		</div>
 		<?php endif; ?>
 	<?php
@@ -90,10 +95,18 @@ class Capsman_PP_UI {
 			<dd style="text-align:center;">
 				<?php
 				$caption = __( 'Force unique capability names for:', 'capsman' );
-				echo "<p>$caption</p><table style='width:100%'><tr>";
+				echo "<p>$caption</p>";
 				
-				$unfiltered['type'] = apply_filters( 'pp_unfiltered_post_types', array() );
-				$unfiltered['taxonomy'] = apply_filters( 'pp_unfiltered_taxonomies', array( 'post_status' ) );  // avoid confusion with Edit Flow administrative taxonomy
+				if ( pp_get_option( 'display_hints' ) ) :?>
+				<div class="cme-subtext" style="margin-top:0">
+				<?php _e( '(PP Filtered Post Types, Taxonomies)', 'capsman' );?>
+				</div>
+				<?php endif;
+				
+				echo "<table style='width:100%'><tr>";
+				
+				$unfiltered['type'] = apply_filters( 'pp_unfiltered_post_types', array('forum','topic','reply') );			// bbPress' dynamic role def requires additional code to enforce stored caps
+				$unfiltered['taxonomy'] = apply_filters( 'pp_unfiltered_taxonomies', array( 'post_status', 'topic-tag' ) );  // avoid confusion with Edit Flow administrative taxonomy
 				$hidden['type'] = apply_filters( 'pp_hidden_post_types', array() );
 				$hidden['taxonomy'] = apply_filters( 'pp_hidden_taxonomies', array() );
 				
@@ -133,7 +146,8 @@ class Capsman_PP_UI {
 					echo '</td>';
 				}
 				?>
-				</tr></table>
+				</tr>
+				</table>
 				
 				<?php if( pp_wp_ver( '3.5' ) ) :
 					$define_create_posts_cap = pp_get_option( 'define_create_posts_cap' );
@@ -144,14 +158,6 @@ class Capsman_PP_UI {
 					</label>
 					</div>
 				<?php endif; ?>
-				
-				<div class="cme-subtext">
-				<?php
-				if ( pp_get_option( 'display_hints' ) ) {
-					_e( '(PP Filtered Post Types, Taxonomies)', 'capsman' );
-				}
-				?>
-				</div>
 				
 				<input type="submit" name="update_filtered_types" value="<?php _e('Update', 'capsman') ?>" class="button" />
 			</dd>

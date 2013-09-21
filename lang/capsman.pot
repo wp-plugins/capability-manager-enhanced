@@ -1,14 +1,14 @@
-# Copyright (C) 2012 
+# Copyright (C) 2013 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/capability-manager-enhanced\n"
-"POT-Creation-Date: 2012-07-30 21:29:36+00:00\n"
+"POT-Creation-Date: 2013-08-20 19:31:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -18,8 +18,7 @@ msgid ""
 "another copy of Capability Manager is active."
 msgstr ""
 
-#: capsman-enhanced.php:57 framework/classes/abstract/plugin.php:344
-#: framework/classes/abstract/plugin.php:363
+#: capsman-enhanced.php:57
 msgid "Warning:"
 msgstr ""
 
@@ -31,394 +30,120 @@ msgstr ""
 msgid "%s is required for this plugin."
 msgstr ""
 
-#: capsman-enhanced.php:88 capsman-enhanced.php:90 capsman-enhanced.php:94
-#: includes/manager.php:183 includes/manager.php:186 includes/manager.php:190
+#: capsman-enhanced.php:104 includes/manager.php:177 includes/manager.php:185
+msgid "Capabilities"
+msgstr ""
+
+#: capsman-enhanced.php:105 capsman-enhanced.php:108 capsman-enhanced.php:113
+#: includes/manager.php:177 includes/manager.php:180 includes/manager.php:186
 msgid "Capability Manager"
 msgstr ""
 
-#: capsman-enhanced.php:88 capsman-enhanced.php:94 includes/manager.php:190
+#: capsman-enhanced.php:113
 msgid "Role Capabilities"
 msgstr ""
 
-#: framework/classes/abstract/module.php:614
-msgid "Option blocked by administrator."
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:345
-msgid "The active plugin %s is not compatible with your WordPress version."
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:347
-msgid "WordPress %s is required to run this plugin."
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:364
-msgid "Standard sidebar functions are not present."
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:365
-msgid "It is required to use the standard sidebar to run %s"
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:418
-msgid "Activate Components"
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:427
-msgid "Yes"
-msgstr ""
-
-#: framework/classes/abstract/plugin.php:428
-msgid "No"
-msgstr ""
-
-#: framework/classes/template.php:90
-msgid "Template class: Received template paths are not valid directories."
-msgstr ""
-
-#: framework/classes/template.php:98
-msgid "Template class: Received config paths are not valid directories."
-msgstr ""
-
-#: framework/classes/template.php:174
-msgid "Template class: %s is a reserved template variable."
-msgstr ""
-
-#: framework/classes/template.php:338
-msgid "Template file %1$s not found. Default template %2$s not found."
-msgstr ""
-
-#: framework/lib/formating.php:52
+#: framework/lib/formating.php:40
 msgid "Settings saved."
 msgstr ""
 
-#: framework/lib/formating.php:160
-msgid "Just Now"
-msgstr ""
-
-#: framework/lib/formating.php:163
-msgid "1 minute ago"
-msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: framework/lib/formating.php:166
-msgid "1 hour ago"
-msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: framework/lib/formating.php:170
-msgid "Today at %s"
-msgstr ""
-
-#: framework/lib/formating.php:170
-msgid "Yesterday at %s"
-msgstr ""
-
-#: framework/lib/themes.php:162 framework/lib/themes.php:170
-#: includes/author-widget.php:33
+#: framework/lib/themes-agapetry.php:9
 msgid "Plugin Homepage"
 msgstr ""
 
-#: framework/lib/themes.php:163 framework/lib/themes.php:178
-#: includes/author-widget.php:34
+#: framework/lib/themes-agapetry.php:10
 msgid "Documentation"
 msgstr ""
 
-#: framework/lib/themes.php:164 framework/lib/themes.php:182
-#: includes/author-widget.php:35
+#: framework/lib/themes-agapetry.php:11
 msgid "Support Forum"
 msgstr ""
 
-#: framework/lib/themes.php:165 framework/lib/themes.php:186
-#: includes/author-widget.php:36
+#: framework/lib/themes-agapetry.php:12
 msgid "Author Homepage"
 msgstr ""
 
-#: framework/lib/themes.php:166 includes/author-widget.php:37
+#: framework/lib/themes-agapetry.php:13
 msgid "Help donating"
 msgstr ""
 
-#: framework/lib/themes.php:174
-msgid "Theme Homepage"
+#: framework/lib/themes-agapetry.php:23
+msgid "Capability Manager Enhanced %s"
 msgstr ""
 
-#: framework/lib/themes.php:190
-msgid "Donate to project"
+#: framework/lib/themes-agapetry.php:24
+msgid "Copyright 2010 Jordi Canals"
 msgstr ""
 
-#: framework/vendor/upload/class.upload.php:2195
-msgid "File error. Please try again."
+#: framework/lib/themes-agapetry.php:27
+msgid "Modifications &copy; Copyright %1$s %2$s"
 msgstr ""
 
-#: framework/vendor/upload/class.upload.php:2196
-msgid "Local file doesn't exist."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2197
-msgid "Local file is not readable."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2198
-msgid ""
-"File upload error (the uploaded file exceeds the upload_max_filesize "
-"directive in php.ini)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2199
-msgid ""
-"File upload error (the uploaded file exceeds the MAX_FILE_SIZE directive "
-"that was specified in the html form)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2200
-msgid "File upload error (the uploaded file was only partially uploaded)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2201
-msgid "File upload error (no file was uploaded)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2202
-msgid "File upload error (missing a temporary folder)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2203
-msgid "File upload error (failed to write file to disk)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2204
-msgid "File upload error (file upload stopped by extension)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2205
-msgid "File upload error (unknown error code)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2206
-msgid "File upload error. Please try again."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2207
-msgid "File too big."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2208
-msgid "MIME type can't be detected."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2209
-msgid "Incorrect type of file."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2210
-msgid "Image too wide."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2211
-msgid "Image too narrow."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2212
-msgid "Image too high."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2213
-msgid "Image too short."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2214
-msgid "Image ratio too high (image too wide)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2215
-msgid "Image ratio too low (image too high)."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2216
-msgid "Image has too many pixels."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2217
-msgid "Image has not enough pixels."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2218
-msgid "File not uploaded. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2219
-msgid "%s already exists. Please change the file name."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2220
-msgid "No correct temp source file. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2221
-msgid "No correct uploaded source file. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2222
-msgid "Destination directory can't be created. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2223
-msgid "Destination directory doesn't exist. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2224
-msgid "Destination path is not a directory. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2225
-msgid ""
-"Destination directory can't be made writeable. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2226
-msgid "Destination path is not a writeable. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2227
-msgid "Can't create the temporary file. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2228
-msgid "Source file is not readable. Can't carry on a process."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2229
-msgid "No create from %s support."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2230
-msgid "Error in creating %s image from source."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2231
-msgid "Can't read image source. Not an image?."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2232
-msgid "GD doesn't seem to be present."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2233
-msgid "No create from %s support, can't read watermark."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2234
-msgid "No %s read support, can't create watermark."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2235
-msgid "Unknown image format, can't read watermark."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2236
-msgid "No %s create support."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2237
-msgid "No conversion type defined."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2238
-msgid "Error copying file on the server. copy() failed."
-msgstr ""
-
-#: framework/vendor/upload/class.upload.php:2239
-msgid "Error reading the file."
-msgstr ""
-
-#: includes/admin.php:67
+#: includes/admin.php:51
 msgid "Roles and Capabilities"
 msgstr ""
 
-#: includes/admin.php:76
+#: includes/admin.php:60
 msgid "Capabilities for %s"
 msgstr ""
 
-#: includes/admin.php:82
+#: includes/admin.php:63
 msgid ""
 "Use this form to view and modify the capabilities WordPress natively "
-"associates with each role.  Note:"
+"associates with each role. Changes <strong>will remain in your database</"
+"strong> even if you deactivate the plugin."
 msgstr ""
 
-#: includes/admin.php:87
-msgid "see %1$sRole Usage%2$s: \"Pattern Roles\""
-msgstr ""
-
-#: includes/admin.php:89
-msgid "activate %1$sAdvanced settings%2$s, see Role Usage"
-msgstr ""
-
-#: includes/admin.php:91
-msgid ""
-"\"Posts\" capabilities selected here also define type-specific role "
-"assignment for Permit Groups (%s)."
-msgstr ""
-
-#: includes/admin.php:93
-msgid ""
-"Capabilities for custom statuses can be manually added to a role here (see "
-"Conditions > Capability Mapping for applicable names). However, it is "
-"usually more convenient to use Permit Groups to assign a supplemental status-"
-"specific role."
-msgstr ""
-
-#: includes/admin.php:98
+#: includes/admin.php:71
 msgid ""
 "Interested in further customizing editing or viewing access? Consider "
 "stepping up to <a href='#pp-more'>Press Permit</a>."
 msgstr ""
 
-#: includes/admin.php:118
+#: includes/admin.php:91
 msgid ""
 "Automatically define type-specific capabilities for your custom post types "
 "and taxonomies"
 msgstr ""
 
-#: includes/admin.php:121
+#: includes/admin.php:94
 msgid "Supplemental per-type, per-category or per-page role assignments"
 msgstr ""
 
-#: includes/admin.php:124
+#: includes/admin.php:97
 msgid ""
 "Custom Visibility statuses (require read_member_posts, read_premium_posts, "
 "etc.)"
 msgstr ""
 
-#: includes/admin.php:127
+#: includes/admin.php:100
 msgid ""
 "Custom Editability \"statuses\" - set alongside Visibility in Post and "
 "Category edit forms"
 msgstr ""
 
-#: includes/admin.php:130
+#: includes/admin.php:103
 msgid ""
 "Custom Moderation statuses, enabling access-limited three tier moderation "
 "(Pending / Approved / Published)"
 msgstr ""
 
-#: includes/admin.php:133
+#: includes/admin.php:106
 msgid ""
 "Grant Participant or Moderator access to specific bbPress forums or topics"
 msgstr ""
 
-#: includes/admin.php:136
+#: includes/admin.php:109
 msgid ""
 "Grant supplemental page or category access to all members of a BuddyPress "
 "group"
 msgstr ""
 
-#: includes/admin.php:139
+#: includes/admin.php:112
 msgid "WPML integration to mirror permissions to translations"
 msgstr ""
 
-#: includes/admin.php:142
+#: includes/admin.php:115
 msgid "Professional support available"
 msgstr ""
 
@@ -482,116 +207,116 @@ msgstr ""
 msgid "can delete posts which are currently published with private visibility"
 msgstr ""
 
-#: includes/admin.php:277 includes/admin.php:350 includes/admin.php:399
-msgid "%s: assigned by Permit Group"
+#: includes/admin.php:286 includes/admin.php:359 includes/admin.php:408
+msgid "%s: assigned by Permission Group"
 msgstr ""
 
-#: includes/admin.php:333
+#: includes/admin.php:342
 msgid "Other WordPress Core Capabilities"
 msgstr ""
 
-#: includes/admin.php:369
+#: includes/admin.php:379
 msgid "Additional Capabilities"
 msgstr ""
 
-#: includes/admin.php:436
+#: includes/admin.php:444
 msgid "Level:"
 msgstr ""
 
-#: includes/admin.php:457
+#: includes/admin.php:465
 msgid ""
 "Note: Underscores replace spaces in stored capability name (\"edit users\" "
 "=> \"edit_users\")."
 msgstr ""
 
-#: includes/admin.php:468 includes/manager.php:375
+#: includes/admin.php:480
 msgid "Save Changes"
 msgstr ""
 
-#: includes/admin.php:470
+#: includes/admin.php:483
 msgid "Delete this role"
 msgstr ""
 
-#: includes/admin.php:470
+#: includes/admin.php:483
 msgid ""
 "You are about to delete the %s role.\n"
 " 'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: includes/admin.php:470
+#: includes/admin.php:483
 msgid "Delete Role"
 msgstr ""
 
-#: includes/admin.php:482
+#: includes/admin.php:495
 msgid "Select New Role"
 msgstr ""
 
-#: includes/admin.php:482
-msgid "Select Role to View / Edit"
-msgstr ""
-
-#: includes/admin.php:490
+#: includes/admin.php:503
 msgid "Change"
 msgstr ""
 
-#: includes/admin.php:490 includes/manager.php:346
-msgid "Load"
-msgstr ""
-
-#: includes/admin.php:495
+#: includes/admin.php:508
 msgid "Create New Role"
 msgstr ""
 
-#: includes/admin.php:497
+#: includes/admin.php:511
 msgid "Name of new role"
 msgstr ""
 
-#: includes/admin.php:498 includes/manager.php:350
+#: includes/admin.php:514 includes/admin.php:530 includes/pp-ui.php:79
+msgid "Make role available for supplemental assignment to Permit Groups only"
+msgstr ""
+
+#: includes/admin.php:514 includes/admin.php:530
+msgid "supplemental"
+msgstr ""
+
+#: includes/admin.php:518
 msgid "Create"
 msgstr ""
 
-#: includes/admin.php:503
+#: includes/admin.php:524
 msgid "Copy this role to"
 msgstr ""
 
-#: includes/admin.php:503
-msgid "Copy %s Role"
-msgstr ""
-
-#: includes/admin.php:505
+#: includes/admin.php:527
 msgid "Name of copied role"
 msgstr ""
 
-#: includes/admin.php:506 includes/manager.php:362
+#: includes/admin.php:534
 msgid "Copy"
 msgstr ""
 
-#: includes/admin.php:511
+#: includes/admin.php:540
 msgid "Add Capability"
 msgstr ""
 
-#: includes/admin.php:513
+#: includes/admin.php:542
 msgid "capability name"
 msgstr ""
 
-#: includes/admin.php:514 includes/manager.php:379
+#: includes/admin.php:543
 msgid "Add to role"
 msgstr ""
 
-#: includes/admin.php:520
-msgid "Force Type-Specific Capabilities"
+#: includes/backup-handler.php:29
+msgid "New backup saved."
 msgstr ""
 
-#: includes/admin.php:523
-msgid "Force unique capability names for:"
+#: includes/backup-handler.php:35
+msgid "Roles and Capabilities restored from last backup."
 msgstr ""
 
-#: includes/admin.php:564
-msgid "(PP Filtered Post Types, Taxonomies)"
+#: includes/backup-handler.php:37
+msgid "Restore failed. No backup found."
 msgstr ""
 
-#: includes/admin.php:569 includes/manager.php:389
-msgid "Update"
+#: includes/backup-handler.php:56
+msgid "Needed function to create default roles not found!"
+msgstr ""
+
+#: includes/backup-handler.php:68
+msgid "Roles and Capabilities reset to WordPress defaults"
 msgstr ""
 
 #: includes/backup.php:33
@@ -656,83 +381,121 @@ msgstr ""
 msgid "Reset to WordPress defaults"
 msgstr ""
 
-#: includes/manager.php:183
-msgid "Capabilities"
-msgstr ""
-
-#: includes/manager.php:270 includes/manager.php:306
-msgid "What do you think you're doing?!?"
-msgstr ""
-
-#: includes/manager.php:333
-msgid "Bad form Received"
-msgstr ""
-
-#: includes/manager.php:352 includes/manager.php:365
+#: includes/handler.php:16 includes/handler.php:29 includes/modify.php:13
+#: includes/modify.php:26
 msgid "New role created."
 msgstr ""
 
-#: includes/manager.php:356 includes/manager.php:369
-msgid "Error: No role name specified."
-msgstr ""
-
-#: includes/manager.php:358 includes/manager.php:371
+#: includes/handler.php:22 includes/handler.php:35 includes/modify.php:19
+#: includes/modify.php:32
 msgid "Error: Failed creating the new role."
 msgstr ""
 
-#: includes/manager.php:376
-msgid "New capabilities saved."
-msgstr ""
-
-#: includes/manager.php:384
+#: includes/handler.php:74 includes/modify.php:71
 msgid "New capability added to role."
 msgstr ""
 
-#: includes/manager.php:386
+#: includes/handler.php:88 includes/modify.php:85
 msgid "Incorrect capability name."
 msgstr ""
 
-#: includes/manager.php:391
+#: includes/handler.php:93 includes/modify.php:90
 msgid "Capability settings saved."
 msgstr ""
 
-#: includes/manager.php:393
+#: includes/handler.php:95 includes/modify.php:92
 msgid "Error saving capability settings."
 msgstr ""
 
-#: includes/manager.php:397
+#: includes/handler.php:99 includes/modify.php:96
 msgid "Bad form received."
 msgstr ""
 
-#: includes/manager.php:417
-msgid "New backup saved."
+#: includes/handler.php:202 includes/modify.php:199
+msgid "You cannot remove Manage Capabilities from Administrators"
 msgstr ""
 
-#: includes/manager.php:423
-msgid "Roles and Capabilities restored from last backup."
-msgstr ""
-
-#: includes/manager.php:425
-msgid "Restore failed. No backup found."
-msgstr ""
-
-#: includes/manager.php:447
+#: includes/handler.php:236 includes/modify.php:231
 msgid ""
 "Cannot delete default role. You <a href=\"%s\">have to change it first</a>."
 msgstr ""
 
-#: includes/manager.php:468
+#: includes/handler.php:264 includes/modify.php:259
 msgid "Role has been deleted. %1$d users moved to default role %2$s."
 msgstr ""
 
-#: includes/manager.php:482
-msgid "Needed function to create default roles not found!"
+#: includes/manager.php:262 includes/manager.php:281 includes/manager.php:437
+msgid "What do you think you're doing?!?"
 msgstr ""
 
-#: includes/manager.php:494
-msgid "Roles and Capabilities reset to WordPress defaults"
+#: includes/manager.php:320
+msgid "Bad form Received"
 msgstr ""
 
-#: includes/manager.php:685
-msgid "You cannot remove Manage Capabilities from Administrators"
+#: includes/pp-ui.php:43
+msgid "see %1$sRole Usage%2$s: \"Pattern Roles\""
+msgstr ""
+
+#: includes/pp-ui.php:45
+msgid "activate %1$sAdvanced settings%2$s, see Role Usage"
+msgstr ""
+
+#: includes/pp-ui.php:50
+msgid ""
+"\"Posts\" capabilities selected here also define type-specific role "
+"assignment for Permission Groups%s."
+msgstr ""
+
+#: includes/pp-ui.php:52
+msgid ""
+"\"Posts\" capabilities selected here also define type-specific role "
+"assignment for Permit Groups%s."
+msgstr ""
+
+#: includes/pp-ui.php:58
+msgid ""
+"Capabilities for custom statuses can be manually added to a role here (see "
+"Post Statuses > Status > Capability Mapping for applicable names). However, "
+"it is usually more convenient to use Permission Groups to assign a "
+"supplemental status-specific role."
+msgstr ""
+
+#: includes/pp-ui.php:60
+msgid ""
+"Capabilities for custom statuses can be manually added to a role here (see "
+"Post Statuses > Status > Capability Mapping for applicable names). However, "
+"by activating the PP Custom Post Statuses extension, you can assign a "
+"supplemental status-specific role easily using Permission Groups."
+msgstr ""
+
+#: includes/pp-ui.php:62
+msgid ""
+"Capabilities for custom statuses can be manually added to a role here (see "
+"Conditions > Status > Capability Mapping for applicable names). However, it "
+"is usually more convenient to use Permit Groups to assign a supplemental "
+"status-specific role."
+msgstr ""
+
+#: includes/pp-ui.php:79
+msgid "supplemental assignment only"
+msgstr ""
+
+#: includes/pp-ui.php:89
+msgid "Force Type-Specific Capabilities"
+msgstr ""
+
+#: includes/pp-ui.php:92
+msgid "Force unique capability names for:"
+msgstr ""
+
+#: includes/pp-ui.php:143
+msgid "Use create_posts capability"
+msgstr ""
+
+#: includes/pp-ui.php:151
+msgid "(PP Filtered Post Types, Taxonomies)"
+msgstr ""
+
+#: includes/pp-ui.php:156
+msgid "Update"
 msgstr ""

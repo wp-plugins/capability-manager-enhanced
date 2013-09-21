@@ -1,10 +1,10 @@
 === Capability Manager Enhanced===
 Contributors: txanny, kevinB
-Help link: http://wordpress.org/tags/capsman-enhanced
+Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVFUDLLYQBA
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
-Tested up to: 3.5.1
-Stable tag: 1.4.10
+Tested up to: 3.6.1
+Stable tag: 1.5
 
 A simple way to manage WordPress roles and capabilities. With this plugin you will be able to easily create and manage roles and capabilities.
 
@@ -70,11 +70,12 @@ Capability Manager Enhanced also adds <a href="http://presspermit.com">Press Per
 
 1. Users Menu.
 2. View or Modify capabilities for a role.
-3. Actions on roles.
-4. Permissions Menu (Press Permit integration).
-5. View or Modify capabilities for a role (Press Permit integration).
-6. Actions on roles (Press Permit integration).
-7. Backup/Restore tool.
+3. Network: copy role to existing or future sites.
+4. Actions on roles.
+5. Permissions Menu (Press Permit integration).
+6. View or Modify capabilities for a role (with Press Permit Pro).
+7. Force type-specific capabilities (Press Permit integration).
+8. Backup/Restore tool.
 
 == Frequently Asked Questions ==
 
@@ -102,6 +103,18 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
+= 1.5 =
+  * Feature : Support negative capabilities (storage to wp_roles array with false value)
+  * Feature : Multisite - Copy a role definition to all current sites on a network
+  * Feature : Multisite - Copy a role definition to new (future) sites on a network
+  * Feature : Backup / Restore tool requires "restore_roles" capability or super admin status
+  * Fixed : Role reset to WP defaults did not work, caused a PHP error / white screen
+  * Change : Clarified English captions on Backup Tool screen
+  * Fixed : Term deletion capability was not included in taxonomies grid even if defined
+  * Fixed : jQuery notices for deprecated methods on Edit Role screen
+  * Compat : Press Permit - if a role is marked as hidden, also default it for use by PP Pro as a Pattern Role (when PP Collaborative Editing is activated and Advanced Settings enabled)
+  * Change : Press Permit promotional message includes link to display further info
+  
 = 1.4.10 =
   * Perf :  Eliminated unused framework code (reduced typical wp-admin memory usage by 0.6 MB)
   * Fixed : Failure to save capability changes, on some versions of PHP

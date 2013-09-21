@@ -57,11 +57,13 @@
 		</dl>
 
 		<dl>
-			<dt><?php _e('Reset WordPress Defaults', $this->ID)?></dt>
+			<dt><?php if ( defined('WPLANG') && WPLANG && ( 'en_EN' != WPLANG ) ) _e('Reset WordPress Defaults', $this->ID); else echo 'Reset Roles to WordPress Defaults';?></dt>
 			<dd>
-				<p style="text-align:center;"><strong><span style="color:red;"><?php _e('WARNING:', $this->ID); ?></span> <?php _e('Reseting default Roles and Capabilities will set them to the WordPress install defaults.', $this->ID); ?></strong><br />
-					<?php _e('If you have installed any plugin that adds new roles or capabilities, these will be lost.', $this->ID)?><br />
-					<strong><?php _e('It is recommended to use this only as a last resource!')?></strong></p>
+				<p style="text-align:center;"><strong><span style="color:red;"><?php _e('WARNING:', $this->ID); ?></span> <?php if ( defined('WPLANG') && WPLANG && ( 'en_EN' != WPLANG ) ) _e('Reseting default Roles and Capabilities will set them to the WordPress install defaults.', $this->ID); else echo 'This will delete and/or modify stored role definitions.'; ?></strong><br />
+					<br />
+					<?php 
+					_e('If you have installed any plugin that adds new roles or capabilities, these will be lost.', $this->ID)?><br />
+					<strong><?php if ( defined('WPLANG') && WPLANG && ( 'en_EN' != WPLANG ) ) _e('It is recommended to use this only as a last resource!'); else echo('It is recommended to use this only as a last resort!');?></strong></p>
 				<p style="text-align:center;"><a class="ak-delete" title="<?php echo esc_attr(__('Reset Roles and Capabilities to WordPress defaults', $this->ID)) ?>" href="<?php echo wp_nonce_url("tools.php?page={$this->ID}-tool&amp;action=reset-defaults", 'capsman-reset-defaults'); ?>" onclick="if ( confirm('<?php echo esc_js(__("You are about to reset Roles and Capabilities to WordPress defaults.\n 'Cancel' to stop, 'OK' to reset.", $this->ID)); ?>') ) { return true;}return false;"><?php _e('Reset to WordPress defaults', $this->ID)?></a>
 
 			</dd>

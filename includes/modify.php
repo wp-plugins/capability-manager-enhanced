@@ -101,6 +101,7 @@ class CapsmanHandler
 				$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 				$pp_only[]= $newrole;
 				pp_update_option( 'supplemental_role_defs', $pp_only );
+				_cme_pp_default_pattern_role( $newrole );
 				pp_refresh_options();
 			}
 		}

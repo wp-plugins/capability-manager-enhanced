@@ -52,7 +52,7 @@ class CapsmanHandler
 				if ( ! $customized_roles = get_option( 'pp_customized_roles' ) )
 					$customized_roles = array();
 				
-				$customized_roles[$post['role']] = (object) array( 'caps' => array_map( 'intval', $post['caps'] ), 'plugins' => $plugins );
+				$customized_roles[$post['role']] = (object) array( 'caps' => array_map( 'boolval', $post['caps'] ), 'plugins' => $plugins );
 				update_option( 'pp_customized_roles', $customized_roles );
 				
 				global $wpdb;
@@ -104,6 +104,7 @@ class CapsmanHandler
 				$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 				$pp_only[]= $newrole;
 				pp_update_option( 'supplemental_role_defs', $pp_only );
+				_cme_pp_default_pattern_role( $newrole );
 				pp_refresh_options();
 			}
 		}
@@ -185,13 +186,21 @@ class CapsmanHandler
 		$stored_role_caps = ( ! empty($role->capabilities) && is_array($role->capabilities) ) ? array_intersect( $role->capabilities, array(true, 1) ) : array();
 		
 		$old_caps = array_intersect_key( $stored_role_caps, $this->cm->capabilities);
-		$new_caps = ( is_array($caps) ) ? array_map('intval', $caps) : array();
+		$new_caps = ( is_array($caps) ) ? array_map('boolval', $caps) : array();
 		$new_caps = array_merge($new_caps, ak_level2caps($level));
 
 		// Find caps to add and remove
 		$add_caps = array_diff_key($new_caps, $old_caps);
 		$del_caps = array_diff_key($old_caps, $new_caps);
 
+		$changed_caps = array();
+		foreach( array_intersect_key( $new_caps, $old_caps ) as $cap_name => $cap_val ) {
+			if ( $new_caps[$cap_name] != $old_caps[$cap_name] )
+				$changed_caps[$cap_name] = $cap_val;
+		}
+		
+		$add_caps = array_merge( $add_caps, $changed_caps );
+		
 		if ( ! $is_administrator = current_user_can('administrator') ) {
 			unset($add_caps['manage_capabilities']);
 			unset($del_caps['manage_capabilities']);
@@ -204,7 +213,7 @@ class CapsmanHandler
 		// Add new capabilities to role
 		foreach ( $add_caps as $cap => $grant ) {
 			if ( $is_administrator || current_user_can($cap) )
-				$role->add_cap($cap);
+				$role->add_cap( $cap, $grant );
 		}
 
 		// Remove capabilities from role
@@ -212,6 +221,74 @@ class CapsmanHandler
 			if ( $is_administrator || current_user_can($cap) )
 				$role->remove_cap($cap);
 		}
+		
+		if ( is_multisite() && is_super_admin() && ( 1 == get_current_blog_id() ) ) {
+			if ( ! $autocreate_roles = get_site_option( 'cme_autocreate_roles' ) )
+				$autocreate_roles = array();
+			
+			$this_role_autocreate = ! empty($_REQUEST['cme_autocreate_role']);
+			
+			if ( $this_role_autocreate && ! in_array( $role_name, $autocreate_roles ) ) {
+				$autocreate_roles []= $role_name;
+				update_site_option( 'cme_autocreate_roles', $autocreate_roles );
+			}
+			
+			if ( ! $this_role_autocreate && in_array( $role_name, $autocreate_roles ) ) {
+				$autocreate_roles = array_diff( $autocreate_roles, array( $role_name ) );
+				update_site_option( 'cme_autocreate_roles', $autocreate_roles );
+			}
+			
+			if ( ! empty($_REQUEST['cme_net_sync_role']) ) {
+				// loop through all sites on network, creating or updating role def
+		
+				global $wpdb, $wp_roles, $blog_id;
+				$blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs ORDER BY blog_id" );
+				$orig_blog_id = $blog_id;	
+		
+				$role_caption = $wp_roles->role_names[$role_name];
+				
+				$new_caps = ( is_array($caps) ) ? array_map('boolval', $caps) : array();
+				$new_caps = array_merge($new_caps, ak_level2caps($level) );
+				
+				$admin_role = $wp_roles->get_role('administrator');
+				$main_admin_caps = array_merge( $admin_role->capabilities, ak_level2caps(10) );
+
+				foreach ( $blog_ids as $id ) {				
+					if ( 1 == $id )
+						continue;
+					
+					switch_to_blog( $id );
+					$wp_roles->reinit();
+					
+					if ( $blog_role = $wp_roles->get_role( $role_name ) ) {
+						$stored_role_caps = ( ! empty($blog_role->capabilities) && is_array($blog_role->capabilities) ) ? array_intersect( $blog_role->capabilities, array(true, 1) ) : array();
+						
+						$old_caps = array_intersect_key( $stored_role_caps, $this->cm->capabilities);
+
+						// Find caps to add and remove
+						$add_caps = array_diff_key($new_caps, $old_caps);
+						$del_caps = array_intersect_key( array_diff_key($old_caps, $new_caps), $main_admin_caps );	// don't mess with caps that are totally unused on main site
+						
+						// Add new capabilities to role
+						foreach ( $add_caps as $cap => $grant ) {
+							$blog_role->add_cap( $cap, $grant );
+						}
+
+						// Remove capabilities from role
+						foreach ( $del_caps as $cap => $grant) {
+							$blog_role->remove_cap($cap);
+						}
+						
+					} else {
+						$wp_roles->add_role( $role_name, $role_caption, $new_caps );
+					}
+					
+					restore_current_blog();
+				}
+				
+				$wp_roles->reinit();
+			}
+		} // endif multisite installation with super admin editing a main site role
 	}
 	
 
@@ -266,4 +343,9 @@ class CapsmanHandler
 	}
 }
 
+if ( ! function_exists('boolval') ) {
+	function boolval( $val ) {
+		return (bool) $val;
+	}
+}
 ?>

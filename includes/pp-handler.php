@@ -51,6 +51,7 @@ function _cme_update_pp_usage() {
 				$pp_only[]= $_REQUEST['role'];
 
 			pp_update_option( 'supplemental_role_defs', array_unique($pp_only) );
+			_cme_pp_default_pattern_role( $_REQUEST['role'] );
 		}
 	}
 	

@@ -212,6 +212,21 @@ abstract class akPluginAbstract
    			wp_register_style('ak_' . $this->ID . '_admin', $url, array('ak_framework_admin'), $this->version);
    			wp_enqueue_style('ak_' . $this->ID . '_admin');
     	}
+		
+		if ( file_exists(dirname($this->mod_file) . '/admin.js') ) {
+			$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+			$url = $this->mod_url . "/admin{$suffix}.js";
+			wp_enqueue_script( 'cme_admin', $url, array('jquery'), CAPSMAN_VERSION, true );
+			wp_localize_script( 'cme_admin', 'cmeAdmin', array( 
+				'negationCaption' => __( 'Explicity negate this capability by storing as disabled', 'capsman' ),
+				'typeCapsNegationCaption' => __( 'Explicitly negate these capabilities by storing as disabled', 'capsman' ),
+				'typeCapUnregistered' => __( 'Post type registration does not define this capability distinctly', 'capsman' ),
+				'capNegated' => __( 'This capability is explicitly negated. Click to add/remove normally.', 'capsman' ), 
+				'chkCaption' => __( 'Add or remove this capability from the WordPress role', 'capsman' ), 
+				'switchableCaption' => __( 'Add or remove capability from the role normally', 'capsman' ) ) 
+			);
+		}
+		
     }
 
 	/**
@@ -222,7 +237,7 @@ abstract class akPluginAbstract
 	 */
 	final private function loadModuleData ( $id )
 	{
-        $this->mod_url = plugins_url() . '/' . basename(dirname($this->mod_file));
+        $this->mod_url = plugins_url( '', CME_FILE );
 	    
 		if ( ! isset($this->ID) )
 			$this->ID = ( empty($id) ) ? strtolower(basename($this->mod_file, '.php')) : trim($id) ;

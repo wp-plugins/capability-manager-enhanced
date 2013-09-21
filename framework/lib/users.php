@@ -69,7 +69,7 @@ function ak_level2caps( $level ) {
 	$level = min(10, intval($level));
 
 	for ( $i = $level; $i >= 0; $i--) {
-		$caps["level_{$i}"] = "Level {$i}";
+		$caps["level_{$i}"] = true;
 	}
 
 	return $caps;

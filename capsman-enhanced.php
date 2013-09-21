@@ -3,7 +3,7 @@
 Plugin Name: Capability Manager Enhanced
 Plugin URI: http://presspermit.com/capability-manager
 Description: Manage WordPress role definitions. Organizes available capabilities by post type, status and source.
-Version: 1.4.10
+Version: 1.5
 Author: Jordi Canals, Kevin Behrens
 Author URI: http://agapetry.net
  */
@@ -32,8 +32,8 @@ Author URI: http://agapetry.net
  */
 
 if ( ! defined( 'CAPSMAN_VERSION' ) ) {
-	define( 'CAPSMAN_VERSION', '1.4.10' );
-	define( 'CAPSMAN_ENH_VERSION', '1.4.10' );
+	define( 'CAPSMAN_VERSION', '1.5' );
+	define( 'CAPSMAN_ENH_VERSION', '1.5' );
 }
 
 if ( cme_is_plugin_active( 'capsman.php' ) ) {
@@ -41,6 +41,7 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade" style="color: black">' . $message . '</div>\';'));
 	return;
 } else {
+	define ( 'CME_FILE', __FILE__ );
 	define ( 'AK_CMAN_PATH', dirname(__FILE__) );
 	define ( 'AK_CMAN_LIB', AK_CMAN_PATH . '/includes' );
 
@@ -82,6 +83,10 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 			include_once ( AK_CMAN_PATH . '/framework/loader.php' );
 			include ( AK_CMAN_LIB . '/manager.php' );
 			$capsman = new CapabilityManager(__FILE__, 'capsman');
+			
+			if ( isset($_REQUEST['page']) && ( 'capsman' == $_REQUEST['page'] ) ) {
+				add_action( 'admin_enqueue_scripts', '_cme_pp_scripts' );
+			}
 		} else {
 			load_plugin_textdomain('capsman', false, basename(dirname(__FILE__)) .'/lang');
 			add_action( 'admin_menu', 'cme_submenus' );
@@ -96,6 +101,12 @@ function _cme_act_pp_active() {
 		define( 'PP_ACTIVE', true );
 }
 
+function _cme_pp_scripts() {
+	wp_enqueue_style( 'plugin-install' );
+	wp_enqueue_script( 'plugin-install' );
+	add_thickbox();
+}
+
 // perf enchancement: display submenu links without loading framework and plugin code
 function cme_submenus() {
 	if ( defined('PP_ACTIVE') ) {   // Press Permit integrates into Permissions menu
@@ -105,7 +116,8 @@ function cme_submenus() {
 		add_users_page( __('Capability Manager', 'capsman'),  $menu_caption, 'manage_capabilities', 'capsman', 'cme_fakefunc');
 	}
 		
-	add_management_page(__('Capability Manager', 'capsman'),  __('Capability Manager', 'capsman'), 'manage_capabilities', 'capsman' . '-tool', 'cme_fakefunc');
+	$cap_name = ( is_super_admin() ) ? 'manage_capabilities' : 'restore_roles';
+	add_management_page(__('Capability Manager', 'capsman'),  __('Capability Manager', 'capsman'), $cap_name, 'capsman' . '-tool', 'cme_fakefunc');
 }
 
 function _cme_pp_menu() {
@@ -124,3 +136,17 @@ function cme_is_plugin_active($check_plugin_file) {
 			return $plugin_file;
 	}
 }
+
+// if a role is marked as hidden, also default it for use by Press Permit as a Pattern Role (when PP Collaborative Editing is activated and Advanced Settings enabled)
+function _cme_pp_default_pattern_role( $role ) {
+	if ( ! $pp_role_usage = get_option( 'pp_role_usage' ) )
+		$pp_role_usage = array();
+		
+	if ( empty( $pp_role_usage[$role] ) ) {
+		$pp_role_usage[$role] = 'pattern';
+		update_option( 'pp_role_usage', $pp_role_usage );
+	}
+}
+
+if ( is_multisite() )
+	require_once ( AK_CMAN_PATH . '/includes/network.php' );

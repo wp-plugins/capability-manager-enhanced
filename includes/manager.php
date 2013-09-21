@@ -177,7 +177,8 @@ class CapabilityManager extends akPluginAbstract
 			add_users_page( __('Capability Manager', $this->ID),  __('Capabilities', $this->ID), 'manage_capabilities', $this->ID, array($this, 'generalManager'));
 		}
 
-		add_management_page(__('Capability Manager', $this->ID),  __('Capability Manager', $this->ID), 'manage_capabilities', $this->ID . '-tool', array($this, 'backupTool'));
+		$cap_name = ( is_super_admin() ) ? 'manage_capabilities' : 'restore_roles';
+		add_management_page(__('Capability Manager', $this->ID),  __('Capability Manager', $this->ID), $cap_name, $this->ID . '-tool', array($this, 'backupTool'));
 	}
 
 	public function pp_menu() {
@@ -191,7 +192,7 @@ class CapabilityManager extends akPluginAbstract
 	 *
 	 * @return void
 	 */
-	private function setAdminCapability ()
+	public function setAdminCapability ()
 	{
 		$admin = get_role('administrator');
 		$admin->add_cap('manage_capabilities');
@@ -432,7 +433,7 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	function backupTool ()
 	{
-		if ( ! current_user_can('manage_capabilities') && ! current_user_can('administrator') ) {
+		if ( ! current_user_can('restore_roles') && ! is_super_admin() ) {
 		    // TODO: Implement exceptions.
 			wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
 		}
