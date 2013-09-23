@@ -4,7 +4,7 @@ Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVF
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
 Tested up to: 3.6.1
-Stable tag: 1.5
+Stable tag: 1.5.1
 
 A simple way to manage WordPress roles and capabilities.
 
@@ -104,6 +104,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.5.1 =
+  * Fixed : Non-administrators with user editing capabilities could give new users a role with a higher level than their own (including Administrator)
 
 = 1.5 =
   * Feature : Support negative capabilities (storage to wp_roles array with false value)
@@ -222,6 +225,9 @@ You should have received a copy of the GNU General Public License along with thi
   * First public version.
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+Fixed : Non-administrators with user editing capabilities could add new Administrators
 
 = 1.3.2 = 
 Only Swedish translation.
