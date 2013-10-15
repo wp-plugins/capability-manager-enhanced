@@ -3,7 +3,7 @@ Contributors: txanny, kevinB
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVFUDLLYQBA
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
 Requires at least: 3.1
-Tested up to: 3.6.1
+Tested up to: 3.7
 Stable tag: 1.5.1
 
 A simple way to manage WordPress roles and capabilities.
