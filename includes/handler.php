@@ -348,4 +348,3 @@ if ( ! function_exists('boolval') ) {
 		return (bool) $val;
 	}
 }
-?>

@@ -1,10 +1,10 @@
 === Capability Manager Enhanced===
 Contributors: txanny, kevinB
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVFUDLLYQBA
-Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies
+Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies, network, multisite, default
 Requires at least: 3.1
-Tested up to: 3.7
-Stable tag: 1.5.1
+Tested up to: 4.0
+Stable tag: 1.5.2
 
 A simple way to manage WordPress roles and capabilities.
 
@@ -95,7 +95,7 @@ Probably because your custom post type definition not having map_meta_cap set tr
 == License ==
 
 Copyright 2009, 2010 Jordi Canals
-Copyright 2013, Kevin Behrens
+Copyright 2013-2014, Kevin Behrens
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
 
@@ -104,6 +104,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.5.2 =
+  * Fixed : Network Super Administrators without an Administrator role on a particular site could not assign an Administrator role to other users of that site
 
 = 1.5.1 =
   * Fixed : Non-administrators with user editing capabilities could give new users a role with a higher level than their own (including Administrator)

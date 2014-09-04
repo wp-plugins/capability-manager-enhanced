@@ -725,4 +725,3 @@ function cme_network_role_ui( $default ) {
 function cme_plugin_info_url( $plugin_slug ) {
 	return self_admin_url( "plugin-install.php?tab=plugin-information&plugin=$plugin_slug&TB_iframe=true&width=640&height=678" );
 }
-?>

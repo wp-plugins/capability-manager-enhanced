@@ -53,11 +53,13 @@ function _cme_new_blog( $new_blog_id ) {
 				$wp_roles->add_role( $role_name, $role_captions[$role_name], $caps );
 			}
 			
-			if ( in_array( $role_name, $main_pp_only ) ) {
-				_cme_pp_default_pattern_role( $role_name );
-				$blog_pp_only []= $role_name;
-			} else
-				array_diff( $blog_pp_only, array( $role_name ) );
+			if ( defined('PP_ACTIVE') ) {
+				if ( in_array( $role_name, $main_pp_only ) ) {
+					_cme_pp_default_pattern_role( $role_name );
+					$blog_pp_only []= $role_name;
+				} else
+					array_diff( $blog_pp_only, array( $role_name ) );
+			}
 		}
 		
 		if ( defined('PP_ACTIVE') )
@@ -71,4 +73,3 @@ function _cme_new_blog( $new_blog_id ) {
 	}
 }
 
-?>

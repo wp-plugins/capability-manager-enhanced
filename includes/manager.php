@@ -5,13 +5,13 @@
  *
  * @version		$Rev: 199485 $
  * @author		Jordi Canals
- * @copyright   Copyright (C) 2009, 2010 Jordi Canals; Copyright (C) 2012-2013 Kevin Behrens
+ * @copyright   Copyright (C) 2009, 2010 Jordi Canals; Copyright (C) 2012-2014 Kevin Behrens
  * @license		GNU General Public License version 2
  * @link		http://agapetry.net
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012-2013 Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2014 Kevin Behrens <kevin@agapetry.net>
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -391,7 +391,7 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	function generateNames ()
 	{
-		if ( current_user_can('administrator') ) {
+		if ( current_user_can('administrator') || is_super_admin() ) {
 			$this->generateSysNames();
 		} else {
 		    global $user_ID;

@@ -62,4 +62,3 @@ function _cme_update_pp_usage() {
 	return $updated;
 }
 
-?>

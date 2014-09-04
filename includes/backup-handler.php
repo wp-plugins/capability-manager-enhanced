@@ -88,4 +88,3 @@ class Capsman_BackupHandler
 		ak_admin_notify($msg);
 	}
 }
-?>

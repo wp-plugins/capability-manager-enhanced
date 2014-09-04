@@ -35,9 +35,10 @@ class Capsman_PP_UI {
 		if ( pp_get_option('display_hints') ) {
 			$cme_id = 'capsman';
 		
-			echo '<ul class="ul-disc" style="margin-top:10px"><li>';
+			echo '<ul class="ul-disc" style="margin-top:10px">';
 			
 			if ( defined( 'PPCE_VERSION' ) || ! defined( 'PPC_VERSION' ) || in_array( $default, array( 'subscriber', 'contributor', 'author', 'editor' ) ) ) {
+				echo '<li>';
 				if ( defined( 'PPCE_VERSION' ) || ! defined( 'PPC_VERSION' ) ) {
 					if ( pp_get_option( 'advanced_options' ) )
 						$parenthetical = ' (' . sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'pp' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' ) . ')';
@@ -50,6 +51,7 @@ class Capsman_PP_UI {
 					printf( __( '"Posts" capabilities selected here also define type-specific role assignment for Permission Groups%s.', $cme_id ), $parenthetical ) ;
 				else
 					printf( __( '"Posts" capabilities selected here also define type-specific role assignment for Permit Groups%s.', $cme_id ), $parenthetical ) ;
+
 				echo '</li>';
 			}
 			
@@ -166,4 +168,3 @@ class Capsman_PP_UI {
 	}
 }
 
-?>
