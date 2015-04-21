@@ -11,7 +11,7 @@
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012-2013, Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2015, Kevin Behrens <kevin@agapetry.net>
 	
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -359,7 +359,7 @@ if( defined('PP_ACTIVE') ) {
 											
 												if ( $is_administrator || current_user_can($cap_name) ) {
 													if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
-														$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
+														$title_text = sprintf( __( '%s: assigned by Permission Group', 'capsman' ), $cap_name );
 													} else {
 														$title_text = $cap_name;
 													}
@@ -451,7 +451,7 @@ if( defined('PP_ACTIVE') ) {
 					
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
 						$class .= ' cap-metagroup';
-						$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
+						$title_text = sprintf( __( '%s: assigned by Permission Group', 'capsman' ), $cap_name );
 					} else {
 						$title_text = $cap_name;
 					}
@@ -504,6 +504,16 @@ if( defined('PP_ACTIVE') ) {
 				<?php
 				$i = 0; $first_row = true;
 				
+				$all_capabilities = apply_filters( 'capsman_get_capabilities', array_keys( $this->capabilities ), $this->ID );
+				$all_capabilities = apply_filters( 'members_get_capabilities', $all_capabilities );
+				
+				foreach( $all_capabilities as $cap_name ) {
+					if ( ! isset($this->capabilities[$cap_name]) ) 
+						$this->capabilities[$cap_name] = str_replace( '_', ' ', $cap_name );
+				}
+
+				uasort( $this->capabilities, 'strnatcasecmp' );  // sort by array values, but maintain keys );
+				
 				foreach ( $this->capabilities as $cap_name => $cap ) :
 					if ( isset( $type_caps[$cap_name] ) || isset($core_caps[$cap_name]) )
 						continue;
@@ -530,7 +540,7 @@ if( defined('PP_ACTIVE') ) {
 					
 					if ( ! empty($pp_metagroup_caps[$cap_name]) ) {
 						$class .= ' cap-metagroup';
-						$title_text = sprintf( __( '%s: assigned by Permission Group', 'pp' ), $cap_name );
+						$title_text = sprintf( __( '%s: assigned by Permission Group', 'capsman' ), $cap_name );
 					} else {
 						$title_text = $cap_name;
 					}
@@ -604,7 +614,7 @@ if( defined('PP_ACTIVE') ) {
 				<br />
 				<?php if ( ! defined('PP_ACTIVE') || pp_get_option('display_hints') ) :?>
 				<div class="cme-subtext">
-					<?php _e( 'Note: Underscores replace spaces in stored capability name ("edit users" => "edit_users").', 'pp' ); ?>
+					<?php _e( 'Note: Underscores replace spaces in stored capability name ("edit users" => "edit_users").', 'capsman' ); ?>
 				</div>
 				<?php endif;?>
 				</span>
@@ -655,7 +665,7 @@ if( defined('PP_ACTIVE') ) {
 					<p><input type="text" name="create-name"" class="<?php echo $class;?>" placeholder="<?php _e('Name of new role', $this->ID) ?>" />
 					
 					<?php if( $support_pp_only_roles ) : ?>
-					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'pp');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1"> <?php _e('hidden', 'pp'); ?> </label>
+					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1"> <?php _e('hidden', 'capsman'); ?> </label>
 					<?php endif; ?>
 					
 					<br />
@@ -671,7 +681,7 @@ if( defined('PP_ACTIVE') ) {
 					<p><input type="text" name="copy-name"  class="<?php echo $class;?>" placeholder="<?php _e('Name of copied role', $this->ID) ?>" />
 					
 					<?php if( $support_pp_only_roles ) : ?>
-					<label for="copy_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'pp');?>"> <input type="checkbox" name="copy_role_pp_only" id="copy_role_pp_only" value="1"> <?php _e('hidden', 'pp'); ?> </label>
+					<label for="copy_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman');?>"> <input type="checkbox" name="copy_role_pp_only" id="copy_role_pp_only" value="1"> <?php _e('hidden', 'capsman'); ?> </label>
 					<?php endif; ?>
 					
 					<br />

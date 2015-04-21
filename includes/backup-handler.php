@@ -75,13 +75,14 @@ class Capsman_BackupHandler
 			pp_populate_roles();
 		} else {
 			// force PP to repopulate roles
-			if ( $pp_ver = get_option( 'pp_version', true ) ) {
+			$pp_ver = get_option( 'pp_c_version', true );
+			if ( $pp_ver && is_array($pp_ver) ) {
 				$pp_ver['version'] = ( preg_match( "/dev|alpha|beta|rc/i", $pp_ver['version'] ) ) ? '0.1-beta' : 0.1;
 			} else {
 				$pp_ver = array( 'version' => '0.1', 'db_version' => '1.0' );
 			}
 
-			update_option( 'pp_version', $pp_ver );
+			update_option( 'pp_c_version', $pp_ver );
 			delete_option( 'ppperm_added_role_caps_10beta' );
 		}
 		

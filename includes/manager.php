@@ -11,7 +11,7 @@
  *
 
 	Copyright 2009, 2010 Jordi Canals <devel@jcanals.cat>
-	Modifications Copyright 2012-2014 Kevin Behrens <kevin@agapetry.net>
+	Modifications Copyright 2012-2015 Kevin Behrens <kevin@agapetry.net>
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -236,7 +236,7 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	function filterUserEdit ( $caps, $cap, $user_id, $args )
 	{
-	    if ( ! in_array( $cap, array( 'edit_user', 'delete_user' ) ) || ( ! isset($args[0]) ) || $user_id == (int) $args[0] ) {
+	    if ( ! in_array( $cap, array( 'edit_user', 'delete_user', 'promote_user', 'remove_user' ) ) || ( ! isset($args[0]) ) || $user_id == (int) $args[0] ) {
 	        return $caps;
 	    }
 
@@ -391,7 +391,7 @@ class CapabilityManager extends akPluginAbstract
 	 */
 	function generateNames ()
 	{
-		if ( current_user_can('administrator') || is_super_admin() ) {
+		if ( current_user_can('administrator') || ( is_multisite() && is_super_admin() ) ) {
 			$this->generateSysNames();
 		} else {
 		    global $user_ID;

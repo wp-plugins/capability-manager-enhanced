@@ -41,9 +41,9 @@ class Capsman_PP_UI {
 				echo '<li>';
 				if ( defined( 'PPCE_VERSION' ) || ! defined( 'PPC_VERSION' ) ) {
 					if ( pp_get_option( 'advanced_options' ) )
-						$parenthetical = ' (' . sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'pp' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' ) . ')';
+						$parenthetical = ' (' . sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'capsman' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' ) . ')';
 					else
-						$parenthetical = ' (' . sprintf( __( 'activate %1$sAdvanced settings%2$s, see Role Usage', 'pp' ), "<a href='" . admin_url('admin.php?page=pp-settings&pp_tab=advanced') . "'>", '</a>' ). ')';
+						$parenthetical = ' (' . sprintf( __( 'activate %1$sAdvanced settings%2$s, see Role Usage', 'capsman' ), "<a href='" . admin_url('admin.php?page=pp-settings&pp_tab=advanced') . "'>", '</a>' ). ')';
 				} else
 					$parenthetical = '';
 
@@ -83,7 +83,7 @@ class Capsman_PP_UI {
 			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
 			?>
-			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'pp');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('hidden role', 'pp'); ?> </label>
+			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('hidden role', 'capsman'); ?> </label>
 		</div>
 		<?php endif; ?>
 	<?php

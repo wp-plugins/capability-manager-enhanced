@@ -193,6 +193,9 @@ abstract class akPluginAbstract
      */
     final function adminStyles()
     {
+		if ( empty( $_REQUEST['page'] ) || ! in_array( $_REQUEST['page'], array( 'capsman', 'capsman-tool' ) ) )
+			return;
+	
 		// FRAMEWORK admin styles.
 		$url = apply_filters('ak_framework_style_admin', AK_STYLES_URL . '/admin.css');
 		if ( ! empty($url) ) {

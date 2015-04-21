@@ -303,7 +303,7 @@ class CapsmanHandler
 	 */
 	function adminDeleteRole ()
 	{
-		global $wpdb;
+		global $wpdb, $wp_roles;
 
 		check_admin_referer('delete-role_' . $_GET['role']);
 		
@@ -319,12 +319,29 @@ class CapsmanHandler
 			. "WHERE meta_key='{$wpdb->prefix}capabilities' AND meta_value LIKE '%{$this->cm->current}%';";
 
 		$users = $wpdb->get_results($query);
-		$count = count($users);
 
+		// Array of all roles except the one being deleted, for use below
+		$role_names = array_diff_key( array_keys( $wp_roles->role_names ), array( $this->cm->current => true ) );
+		
+		$count = 0;
 		foreach ( $users as $u ) {
+			$skip_role_set = false;
+		
 			$user = new WP_User($u->ID);
 			if ( $user->has_cap($this->cm->current) ) {		// Check again the user has the deleting role
-				$user->set_role($default);
+				
+				// Role may have been assigned supplementally.  Don't move a user to default role if they still have one or more roles following the deletion.
+				foreach( $role_names as $_role_name ) {
+					if ( $user->has_cap($_role_name) ) {
+						$skip_role_set = true;
+						break;
+					}
+				}
+				
+				if ( ! $skip_role_set ) {
+					$user->set_role($default);
+					$count++;
+				}
 			}
 		}
 
