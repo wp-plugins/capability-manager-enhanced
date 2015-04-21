@@ -106,6 +106,7 @@ You should have received a copy of the GNU General Public License along with thi
 == Changelog ==
 
 = 1.5.3 =
+  * Fixed : On single-site installations, non-Administrators with delete_users capability could give new users an Administrator role (since 1.5.2) 
   * Fixed : Deletion of a third party plugin role could cause users to be demoted to Subscriber inappropriately
   * Compat : Press Permit Core - Permission Group refresh was not triggered if Press Permit Core is inactive when CME deletes a role definition
   * Compat : Support third party display of available capabilities via capsman_get_capabilities or members_get_capabilities filter
