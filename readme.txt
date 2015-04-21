@@ -4,7 +4,7 @@ Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVF
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies, network, multisite, default
 Requires at least: 3.1
 Tested up to: 4.2
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 
 A simple way to manage WordPress roles and capabilities.
 
@@ -105,7 +105,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 == Changelog ==
 
-= 1.5.3-dev =
+= 1.5.3 =
   * Fixed : Deletion of a third party plugin role could cause users to be demoted to Subscriber inappropriately
   * Compat : Press Permit Core - Permission Group refresh was not triggered if Press Permit Core is inactive when CME deletes a role definition
   * Compat : Support third party display of available capabilities via capsman_get_capabilities or members_get_capabilities filter
@@ -113,6 +113,7 @@ You should have received a copy of the GNU General Public License along with thi
   * Fixed : CSS caused formatting issues around wp-admin Update button on some installations
   * Perf : Don't output wp-admin CSS on non-CME screens
   * Lang : Fixed erroneous text_domain argument for numerous strings
+  * Lang : Updated .pot and .po files
   
 = 1.5.2 =
   * Fixed : Network Super Administrators without an Administrator role on a particular site could not assign an Administrator role to other users of that site
