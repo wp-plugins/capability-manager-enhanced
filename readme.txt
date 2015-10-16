@@ -3,8 +3,8 @@ Contributors: txanny, kevinB
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JWZVFUDLLYQBA
 Tags: roles, capabilities, manager, editor, rights, role, capability, types, taxonomies, network, multisite, default
 Requires at least: 3.1
-Tested up to: 4.2
-Stable tag: 1.5.3
+Tested up to: 4.3.1
+Stable tag: 1.5.6
 
 A simple way to manage WordPress roles and capabilities.
 
@@ -104,6 +104,18 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 == Changelog ==
+
+= 1.5.6 =
+  * Fixed : Correct some irregularities in CME admin menu item display
+
+= 1.5.5 =
+  * Fixed : User editing was improperly blocked in some cases
+
+= 1.5.4 =
+  * Fixed : Non-administrators' user editing capabilities were blocked if Press Permit Core was also active
+  * Fixed : Non-administrators could not edit other users with their role (define constant CME_LEGACY_USER_EDIT_FILTER to retain previous behavior)
+  * Fixed : Non-administrators could not assign their role to other users (define constant CME_LEGACY_USER_EDIT_FILTER to retain previous behavior)
+  * Lang : Changed text domain for language pack conformance
 
 = 1.5.3 =
   * Fixed : On single-site installations, non-Administrators with delete_users capability could give new users an Administrator role (since 1.5.2) 

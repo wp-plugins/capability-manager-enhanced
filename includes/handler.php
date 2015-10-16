@@ -13,26 +13,26 @@ class CapsmanHandler
 		// Create a new role.
 		if ( ! empty($post['CreateRole']) ) {
 			if ( $newrole = $this->createRole($post['create-name']) ) {
-				ak_admin_notify(__('New role created.', $this->cm->ID));
+				ak_admin_notify(__('New role created.', 'capsman-enhanced'));
 				$this->cm->current = $newrole;
 			} else {
 				if ( empty($post['create-name']) && ( ! defined('WPLANG') || ! WPLANG ) )
-					ak_admin_error( 'Error: No role name specified.', $this->cm->ID );
+					ak_admin_error( 'Error: No role name specified.', 'capsman-enhanced' );
 				else
-					ak_admin_error(__('Error: Failed creating the new role.', $this->cm->ID));
+					ak_admin_error(__('Error: Failed creating the new role.', 'capsman-enhanced'));
 			}
 
 		// Copy current role to a new one.
 		} elseif ( ! empty($post['CopyRole']) ) {
 			$current = get_role($post['current']);
 			if ( $newrole = $this->createRole($post['copy-name'], $current->capabilities) ) {
-				ak_admin_notify(__('New role created.', $this->cm->ID));
+				ak_admin_notify(__('New role created.', 'capsman-enhanced'));
 				$this->cm->current = $newrole;
 			} else {
 				if ( empty($post['copy-name']) && ( ! defined('WPLANG') || ! WPLANG ) )
-					ak_admin_error( 'Error: No role name specified.', $this->cm->ID );
+					ak_admin_error( 'Error: No role name specified.', 'capsman-enhanced' );
 				else
-					ak_admin_error(__('Error: Failed creating the new role.', $this->cm->ID));
+					ak_admin_error(__('Error: Failed creating the new role.', 'capsman-enhanced'));
 			}
 
 		// Save role changes. Already saved at start with self::saveRoleCapabilities().
@@ -90,13 +90,13 @@ class CapsmanHandler
 			
 		} elseif ( ! empty($post['update_filtered_types']) ) {
 			if ( cme_update_pp_usage() ) {
-				ak_admin_notify(__('Capability settings saved.', $this->cm->ID));
+				ak_admin_notify(__('Capability settings saved.', 'capsman-enhanced'));
 			} else {
-				ak_admin_error(__('Error saving capability settings.', $this->cm->ID));
+				ak_admin_error(__('Error saving capability settings.', 'capsman-enhanced'));
 			}
 		} else {
 		    // TODO: Implement exceptions. This must be a fatal error.
-		    ak_admin_error(__('Bad form received.', $this->cm->ID));
+		    ak_admin_error(__('Bad form received.', 'capsman-enhanced'));
 		}
 
 		if ( ! empty($newrole) && defined('PP_ACTIVE') ) {
@@ -208,7 +208,7 @@ class CapsmanHandler
 
 		if ( 'administrator' == $role_name && isset($del_caps['manage_capabilities']) ) {
 			unset($del_caps['manage_capabilities']);
-			ak_admin_error(__('You cannot remove Manage Capabilities from Administrators', $this->cm->ID));
+			ak_admin_error(__('You cannot remove Manage Capabilities from Administrators', 'capsman-enhanced'));
 		}
 		// Add new capabilities to role
 		foreach ( $add_caps as $cap => $grant ) {
@@ -310,7 +310,7 @@ class CapsmanHandler
 		$this->cm->current = $_GET['role'];
 		$default = get_option('default_role');
 		if (  $default == $this->cm->current ) {
-			ak_admin_error(sprintf(__('Cannot delete default role. You <a href="%s">have to change it first</a>.', $this->cm->ID), 'options-general.php'));
+			ak_admin_error(sprintf(__('Cannot delete default role. You <a href="%s">have to change it first</a>.', 'capsman-enhanced'), 'options-general.php'));
 			return;
 		}
 
@@ -355,7 +355,7 @@ class CapsmanHandler
 			}
 		}
 		
-		ak_admin_notify(sprintf(__('Role has been deleted. %1$d users moved to default role %2$s.', $this->cm->ID), $count, $this->cm->roles[$default]));
+		ak_admin_notify(sprintf(__('Role has been deleted. %1$d users moved to default role %2$s.', 'capsman-enhanced'), $count, $this->cm->roles[$default]));
 		$this->cm->current = $default;
 	}
 }

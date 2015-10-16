@@ -3,9 +3,11 @@
 Plugin Name: Capability Manager Enhanced
 Plugin URI: http://presspermit.com/capability-manager
 Description: Manage WordPress role definitions, per-site or network-wide. Organizes post capabilities by post type and operation.
-Version: 1.5.3
+Version: 1.5.6
 Author: Jordi Canals, Kevin Behrens
 Author URI: http://agapetry.net
+Text Domain: capsman-enhanced
+Domain Path: /lang/
  */
 
 /**
@@ -32,12 +34,12 @@ Author URI: http://agapetry.net
  */
 
 if ( ! defined( 'CAPSMAN_VERSION' ) ) {
-	define( 'CAPSMAN_VERSION', '1.5.3' );
-	define( 'CAPSMAN_ENH_VERSION', '1.5.3' );
+	define( 'CAPSMAN_VERSION', '1.5.6' );
+	define( 'CAPSMAN_ENH_VERSION', '1.5.6' );
 }
 
 if ( cme_is_plugin_active( 'capsman.php' ) ) {
-	$message = __( '<strong>Error:</strong> Capability Manager Extended cannot function because another copy of Capability Manager is active.', 'capsman' );
+	$message = __( '<strong>Error:</strong> Capability Manager Extended cannot function because another copy of Capability Manager is active.', 'capsman-enhanced' );
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade" style="color: black">' . $message . '</div>\';'));
 	return;
 } else {
@@ -53,12 +55,12 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 	 */
 	function _cman_php_warning() {
 		$data = get_plugin_data(__FILE__);
-		load_plugin_textdomain('capsman', false, basename(dirname(__FILE__)) .'/lang');
+		load_plugin_textdomain('capsman-enhanced', false, basename(dirname(__FILE__)) .'/lang');
 
-		echo '<div class="error"><p><strong>' . __('Warning:', 'capsman') . '</strong> '
-			. sprintf(__('The active plugin %s is not compatible with your PHP version.', 'capsman') .'</p><p>',
+		echo '<div class="error"><p><strong>' . __('Warning:', 'capsman-enhanced') . '</strong> '
+			. sprintf(__('The active plugin %s is not compatible with your PHP version.', 'capsman-enhanced') .'</p><p>',
 				'&laquo;' . $data['Name'] . ' ' . $data['Version'] . '&raquo;')
-			. sprintf(__('%s is required for this plugin.', 'capsman'), 'PHP-5 ')
+			. sprintf(__('%s is required for this plugin.', 'capsman-enhanced'), 'PHP-5 ')
 			. '</p></div>';
 	}
 
@@ -88,8 +90,8 @@ if ( cme_is_plugin_active( 'capsman.php' ) ) {
 				add_action( 'admin_enqueue_scripts', '_cme_pp_scripts' );
 			}
 		} else {
-			load_plugin_textdomain('capsman', false, basename(dirname(__FILE__)) .'/lang');
-			add_action( 'admin_menu', 'cme_submenus' );
+			load_plugin_textdomain('capsman-enhanced', false, basename(dirname(__FILE__)) .'/lang');
+			add_action( 'admin_menu', 'cme_submenus', 20 );
 		}
 	}
 }
@@ -109,20 +111,17 @@ function _cme_pp_scripts() {
 
 // perf enchancement: display submenu links without loading framework and plugin code
 function cme_submenus() {
-	if ( defined('PP_ACTIVE') ) {   // Press Permit integrates into Permissions menu
-		add_action( 'pp_permissions_menu', '_cme_pp_menu' );
-	} else {
-		$menu_caption = ( defined('WPLANG') && WPLANG ) ? __('Capabilities', 'capsman') : 'Role Capabilities';
-		add_users_page( __('Capability Manager', 'capsman'),  $menu_caption, 'manage_capabilities', 'capsman', 'cme_fakefunc');
-	}
-		
 	$cap_name = ( is_super_admin() ) ? 'manage_capabilities' : 'restore_roles';
-	add_management_page(__('Capability Manager', 'capsman'),  __('Capability Manager', 'capsman'), $cap_name, 'capsman' . '-tool', 'cme_fakefunc');
-}
-
-function _cme_pp_menu() {
-	global $pp_admin;
-	add_submenu_page( $pp_admin->get_menu('options'), __('Capability Manager', 'capsman'),  __('Role Capabilities', 'capsman'), 'manage_capabilities', 'capsman', 'cme_fakefunc' );
+	add_management_page(__('Capability Manager', 'capsman-enhanced'),  __('Capability Manager', 'capsman-enhanced'), $cap_name, 'capsman' . '-tool', 'cme_fakefunc');
+	
+	$menu_caption = ( defined('WPLANG') && WPLANG && ( 'en_EN' != WPLANG ) ) ? __('Capabilities', 'capsman-enhanced') : 'Role Capabilities';
+	
+	if ( did_action( 'pp_admin_menu' ) ) {	// Put Capabilities link on Permissions menu if Press Permit is active and user has access to it
+		global $pp_admin;
+		add_submenu_page( $pp_admin->get_menu('options'), __('Capability Manager', 'capsman-enhanced'),  $menu_caption, 'manage_capabilities', 'capsman', 'cme_fakefunc' );
+	} else {
+		add_users_page( __('Capability Manager', 'capsman-enhanced'),  $menu_caption, 'manage_capabilities', 'capsman', 'cme_fakefunc');	
+	}
 }
 
 function cme_is_plugin_active($check_plugin_file) {

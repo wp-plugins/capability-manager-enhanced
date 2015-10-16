@@ -171,20 +171,20 @@ class CapabilityManager extends akPluginAbstract
 			$this->setAdminCapability();
 		}
 
-		if ( defined( 'PP_ACTIVE' ) ) { // Press Permit integrates into Permissions menu
-			add_action( 'pp_permissions_menu', array( &$this, 'pp_menu' ) );
-		} else {
-			add_users_page( __('Capability Manager', $this->ID),  __('Capabilities', $this->ID), 'manage_capabilities', $this->ID, array($this, 'generalManager'));
-		}
-
-		$cap_name = ( is_super_admin() ) ? 'manage_capabilities' : 'restore_roles';
-		add_management_page(__('Capability Manager', $this->ID),  __('Capability Manager', $this->ID), $cap_name, $this->ID . '-tool', array($this, 'backupTool'));
+		add_action( 'admin_menu', array( &$this, 'cme_menu' ), 20 );
 	}
 
-	public function pp_menu() {
-		global $pp_admin;
-		$menu_caption = ( defined('WPLANG') && WPLANG ) ? __('Capabilities', $this->ID) : 'Role Capabilities';
-		add_submenu_page( $pp_admin->get_menu('options'), __('Capability Manager', $this->ID),  $menu_caption, 'manage_capabilities', $this->ID, array($this, 'generalManager') );
+	public function cme_menu() {
+		$cap_name = ( is_super_admin() ) ? 'manage_capabilities' : 'restore_roles';
+		add_management_page(__('Capability Manager', 'capsman-enhanced'),  __('Capability Manager', 'capsman-enhanced'), $cap_name, $this->ID . '-tool', array($this, 'backupTool'));
+		
+		if ( did_action( 'pp_admin_menu' ) ) { // Put Capabilities link on Permissions menu if Press Permit is active and user has access to it
+			global $pp_admin;
+			$menu_caption = ( defined('WPLANG') && WPLANG && ( 'en_EN' != WPLANG ) ) ? __('Capabilities', 'capsman-enhanced') : 'Role Capabilities';
+			add_submenu_page( $pp_admin->get_menu('options'), __('Capability Manager', 'capsman-enhanced'),  $menu_caption, 'manage_capabilities', $this->ID, array($this, 'generalManager') );
+		} else {
+			add_users_page( __('Capability Manager', 'capsman-enhanced'),  __('Capabilities', 'capsman-enhanced'), 'manage_capabilities', $this->ID, array($this, 'generalManager'));
+		}	
 	}
 	
 	/**
@@ -239,16 +239,33 @@ class CapabilityManager extends akPluginAbstract
 	    if ( ! in_array( $cap, array( 'edit_user', 'delete_user', 'promote_user', 'remove_user' ) ) || ( ! isset($args[0]) ) || $user_id == (int) $args[0] ) {
 	        return $caps;
 	    }
+		
+		$user = new WP_User( (int) $args[0] );
+		
+		$this->generateNames();
+		
+		if ( defined( 'CME_LEGACY_USER_EDIT_FILTER' ) && CME_LEGACY_USER_EDIT_FILTER ) {
+			$valid = array_keys($this->roles);
+			
+			foreach ( $user->roles as $role ) {
+				if ( ! in_array($role, $valid) ) {
+					$caps = array('do_not_allow');
+					break;
+				}
+			}
+		} else {
+			global $wp_roles;
 
-	    $this->generateNames();
-	    $valid = array_keys($this->roles);
-
-        $user = new WP_User( (int) $args[0] );
-        foreach ( $user->roles as $role ) {
-		    if ( ! in_array($role, $valid) ) {
-		        $caps = array('do_not_allow');
-		        break;
-            }
+			foreach ( $user->roles as $role ) {
+				$r = get_role( $role );
+    			$level = ak_caps2level($r->capabilities);
+				
+	    		if ( $level > $this->max_level ) {
+		    		$caps = array('do_not_allow');
+					break;
+			    }
+    		}
+			
 		}
 
 		return $caps;
@@ -260,7 +277,7 @@ class CapabilityManager extends akPluginAbstract
 		if ( 'POST' == $_SERVER['REQUEST_METHOD'] && ( ! empty($_REQUEST['SaveRole']) || ! empty($_REQUEST['AddCap']) ) ) {
 			if ( ! current_user_can('manage_capabilities') && ! current_user_can('administrator') ) {
 				// TODO: Implement exceptions.
-				wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
+				wp_die('<strong>' .__('What do you think you\'re doing?!?', 'capsman-enhanced') . '</strong>');
 			}
 
 			//$this->current = get_option('default_role');	// By default we manage the default role.
@@ -279,7 +296,7 @@ class CapabilityManager extends akPluginAbstract
 	function generalManager () {
 		if ( ! current_user_can('manage_capabilities') && ! current_user_can('administrator') ) {
             // TODO: Implement exceptions.
-		    wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
+		    wp_die('<strong>' .__('What do you think you\'re doing?!?', 'capsman-enhanced') . '</strong>');
 		}
 
 		if ( 'POST' == $_SERVER['REQUEST_METHOD'] ) {
@@ -287,9 +304,9 @@ class CapabilityManager extends akPluginAbstract
 				check_admin_referer('capsman-general-manager');
 				$this->processAdminGeneral();
 			} elseif ( ! empty($_REQUEST['SaveRole']) ) {
-				ak_admin_notify( $this->message, $this->ID );  // moved update operation to earlier action to avoid UI refresh issues.  But outputting notification there breaks styling.
+				ak_admin_notify( $this->message );  // moved update operation to earlier action to avoid UI refresh issues.  But outputting notification there breaks styling.
 			} elseif ( ! empty($_REQUEST['AddCap']) ) {
-				ak_admin_notify( $this->message, $this->ID );
+				ak_admin_notify( $this->message );
 			}
 		}
 
@@ -318,7 +335,7 @@ class CapabilityManager extends akPluginAbstract
 	{
 		if (! isset($_POST['action']) || 'update' != $_POST['action'] ) {
 		    // TODO: Implement exceptions. This must be a fatal error.
-			ak_admin_error(__('Bad form Received', $this->ID));
+			ak_admin_error(__('Bad form Received', 'capsman-enhanced'));
 			return;
 		}
 
@@ -406,10 +423,13 @@ class CapabilityManager extends akPluginAbstract
 		    $roles = ak_get_roles(true);
     		unset($roles['administrator']);
 
-	    	foreach ( $user->roles as $role ) {			// Unset the roles from capability list.
-		    	unset ( $this->capabilities[$role] );
-			    unset ( $roles[$role]);					// User cannot manage his roles.
-    		}
+			if ( ( defined( 'CME_LEGACY_USER_EDIT_FILTER' ) && CME_LEGACY_USER_EDIT_FILTER ) || ( ! empty( $_REQUEST['page'] ) && 'capsman' == $_REQUEST['page'] ) ) {
+				foreach ( $user->roles as $role ) {			// Unset the roles from capability list.
+					unset ( $this->capabilities[$role] );
+					unset ( $roles[$role]);					// User cannot manage his roles.
+				}
+			}
+			
 	    	asort($this->capabilities);
 
 		    foreach ( array_keys($roles) as $role ) {
@@ -435,7 +455,7 @@ class CapabilityManager extends akPluginAbstract
 	{
 		if ( ! current_user_can('restore_roles') && ! is_super_admin() ) {
 		    // TODO: Implement exceptions.
-			wp_die('<strong>' .__('What do you think you\'re doing?!?', $this->ID) . '</strong>');
+			wp_die('<strong>' .__('What do you think you\'re doing?!?', 'capsman-enhanced') . '</strong>');
 		}
 
 		if ( 'POST' == $_SERVER['REQUEST_METHOD'] ) {

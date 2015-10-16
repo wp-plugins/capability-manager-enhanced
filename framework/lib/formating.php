@@ -37,7 +37,7 @@ function ak_admin_notify( $message = '' )
 {
     if ( is_admin() ) {
 	    if ( empty($message) ) {
-		    $message = __('Settings saved.', 'akfw');
+		    $message = __('Settings saved.', 'capsman-enhanced');
     	}
     	echo '<div id="message" class="updated fade"><p><strong>' . $message . '</strong></p></div>';
     }

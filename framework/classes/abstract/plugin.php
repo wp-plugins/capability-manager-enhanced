@@ -176,7 +176,7 @@ abstract class akPluginAbstract
      */
     final function pluginsInit ()
     {
-		load_plugin_textdomain($this->ID, false, basename(dirname($this->mod_file)) . '/lang');
+		load_plugin_textdomain('capsman-enhanced', false, basename(dirname($this->mod_file)) . '/lang');
     }
 
     /**
@@ -221,12 +221,12 @@ abstract class akPluginAbstract
 			$url = $this->mod_url . "/admin{$suffix}.js";
 			wp_enqueue_script( 'cme_admin', $url, array('jquery'), CAPSMAN_VERSION, true );
 			wp_localize_script( 'cme_admin', 'cmeAdmin', array( 
-				'negationCaption' => __( 'Explicity negate this capability by storing as disabled', 'capsman' ),
-				'typeCapsNegationCaption' => __( 'Explicitly negate these capabilities by storing as disabled', 'capsman' ),
-				'typeCapUnregistered' => __( 'Post type registration does not define this capability distinctly', 'capsman' ),
-				'capNegated' => __( 'This capability is explicitly negated. Click to add/remove normally.', 'capsman' ), 
-				'chkCaption' => __( 'Add or remove this capability from the WordPress role', 'capsman' ), 
-				'switchableCaption' => __( 'Add or remove capability from the role normally', 'capsman' ) ) 
+				'negationCaption' => __( 'Explicity negate this capability by storing as disabled', 'capsman-enhanced' ),
+				'typeCapsNegationCaption' => __( 'Explicitly negate these capabilities by storing as disabled', 'capsman-enhanced' ),
+				'typeCapUnregistered' => __( 'Post type registration does not define this capability distinctly', 'capsman-enhanced' ),
+				'capNegated' => __( 'This capability is explicitly negated. Click to add/remove normally.', 'capsman-enhanced' ), 
+				'chkCaption' => __( 'Add or remove this capability from the WordPress role', 'capsman-enhanced' ), 
+				'switchableCaption' => __( 'Add or remove capability from the role normally', 'capsman-enhanced' ) ) 
 			);
 		}
 		

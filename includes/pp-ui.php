@@ -41,9 +41,9 @@ class Capsman_PP_UI {
 				echo '<li>';
 				if ( defined( 'PPCE_VERSION' ) || ! defined( 'PPC_VERSION' ) ) {
 					if ( pp_get_option( 'advanced_options' ) )
-						$parenthetical = ' (' . sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'capsman' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' ) . ')';
+						$parenthetical = ' (' . sprintf( __( 'see %1$sRole Usage%2$s: "Pattern Roles"', 'capsman-enhanced' ), "<a href='" . admin_url('admin.php?page=pp-role-usage') . "'>", '</a>' ) . ')';
 					else
-						$parenthetical = ' (' . sprintf( __( 'activate %1$sAdvanced settings%2$s, see Role Usage', 'capsman' ), "<a href='" . admin_url('admin.php?page=pp-settings&pp_tab=advanced') . "'>", '</a>' ). ')';
+						$parenthetical = ' (' . sprintf( __( 'activate %1$sAdvanced settings%2$s, see Role Usage', 'capsman-enhanced' ), "<a href='" . admin_url('admin.php?page=pp-settings&pp_tab=advanced') . "'>", '</a>' ). ')';
 				} else
 					$parenthetical = '';
 
@@ -83,7 +83,7 @@ class Capsman_PP_UI {
 			$pp_only = (array) pp_get_option( 'supplemental_role_defs' );
 			$checked = ( in_array( $default, $pp_only ) ) ? 'checked="checked"': '';
 			?>
-			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('hidden role', 'capsman'); ?> </label>
+			<label for="pp_only_role" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman-enhanced');?>"><input type="checkbox" name="pp_only_role" id="pp_only_role" value="1" <?php echo $checked;?>> <?php _e('hidden role', 'capsman-enhanced'); ?> </label>
 		</div>
 		<?php endif; ?>
 	<?php
@@ -93,15 +93,15 @@ class Capsman_PP_UI {
 	function pp_types_ui( $defined ) {
 		if ( current_user_can( 'pp_manage_settings' ) ) :?>
 		<dl>
-			<dt><?php _e('Force Type-Specific Capabilities', 'capsman'); ?></dt>
+			<dt><?php _e('Force Type-Specific Capabilities', 'capsman-enhanced'); ?></dt>
 			<dd style="text-align:center;">
 				<?php
-				$caption = __( 'Force unique capability names for:', 'capsman' );
+				$caption = __( 'Force unique capability names for:', 'capsman-enhanced' );
 				echo "<p>$caption</p>";
 				
 				if ( pp_get_option( 'display_hints' ) ) :?>
 				<div class="cme-subtext" style="margin-top:0">
-				<?php _e( '(PP Filtered Post Types, Taxonomies)', 'capsman' );?>
+				<?php _e( '(PP Filtered Post Types, Taxonomies)', 'capsman-enhanced' );?>
 				</div>
 				<?php endif;
 				
@@ -161,7 +161,7 @@ class Capsman_PP_UI {
 					</div>
 				<?php endif; ?>
 				
-				<input type="submit" name="update_filtered_types" value="<?php _e('Update', 'capsman') ?>" class="button" />
+				<input type="submit" name="update_filtered_types" value="<?php _e('Update', 'capsman-enhanced') ?>" class="button" />
 			</dd>
 		</dl>
 		<?php endif;
