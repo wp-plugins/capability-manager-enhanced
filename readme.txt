@@ -88,9 +88,13 @@ The custom post type must be defined to impose type-specific capability requirem
 
 Probably because your custom post type definition not having map_meta_cap set true. If you are calling register_post_type manually, just add this property to the options array. Unfortunately, none of the free CPT plugins deal with this important detail. 
 
+= Even after I added capabilities, WordPress is not working the way I want =
+
+Keep in mind that this plugin's purpose is to conveniently view and modify the capabilities array stored for each WordPress role.  It is not responsible for the implementation of those capabilities by the WordPress core or other plugins.
+
 = Where can I find more information about this plugin, usage and support ? =
 
-* If you need help, <a href="http://wordpress.org/tags/capsman-enhanced">ask in the Support forum</a>.
+* If you need help, <a href="http://wordpress.org/tags/capsman-enhanced">ask in the Support forum</a>.  If your issue pertains to the enforcement of assigned capabilities, I am not the primary support avenue.  In many cases, I will offer a suggestion, but please don't give me negative feedback for not providing free consulting.
 
 == License ==
 
